@@ -88,13 +88,13 @@
     </div>
 
     <!-- Theme Toggle -->
-    <button id="theme-toggle" class="theme-toggle" title="Switch between dark and light themes" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 50px !important; height: 50px !important; z-index: 9999 !important; background-color: #ff3d00 !important; cursor: pointer !important; box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important; border-radius: 50% !important;">
-        <i class="fas fa-moon" style="font-size: 1.5rem !important;"></i>
+    <button id="theme-toggle" class="theme-toggle" title="Switch to light mode" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 40px !important; height: 40px !important; z-index: 9999 !important; background: rgba(255,255,255,0.12) !important; backdrop-filter: blur(8px) !important; cursor: pointer !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; border-radius: 8px !important; border: 1px solid rgba(255,255,255,0.15) !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important;">
+        <span id="theme-icon" style="font-size: 1.2rem !important; line-height: 1 !important;">&#9790;</span>
     </button>
 
     <!-- Scroll To Top Button -->
-    <div class="scroll-to-top">
-        <i class="fas fa-chevron-up"></i>
+    <div class="scroll-to-top" title="Back to top">
+        &#9650;
     </div>
 
     <header>
@@ -225,14 +225,18 @@
         // Theme toggle function
         function toggleTheme() {
             var root = document.documentElement;
-            var themeIcon = document.querySelector('#theme-toggle i');
+            var themeIcon = document.getElementById('theme-icon');
+            var toggleBtn = document.getElementById('theme-toggle');
             var logoImages = document.querySelectorAll('#logo-image, .footer-logo-img');
             var signatureImages = document.querySelectorAll('.signature-image');
 
             root.classList.toggle('light-theme');
 
             if (root.classList.contains('light-theme')) {
-                themeIcon.className = 'fas fa-sun';
+                themeIcon.innerHTML = '&#9728;';
+                toggleBtn.title = 'Switch to dark mode';
+                toggleBtn.style.background = 'rgba(0,0,0,0.08)';
+                toggleBtn.style.borderColor = 'rgba(0,0,0,0.15)';
                 localStorage.setItem('theme', 'light');
                 logoImages.forEach(function(img) {
                     img.src = 'assets/images/branding/dickwray-logo_INVERTED.png';
@@ -241,7 +245,10 @@
                     img.src = 'assets/images/branding/Signature_black.png';
                 });
             } else {
-                themeIcon.className = 'fas fa-moon';
+                themeIcon.innerHTML = '&#9790;';
+                toggleBtn.title = 'Switch to light mode';
+                toggleBtn.style.background = 'rgba(255,255,255,0.12)';
+                toggleBtn.style.borderColor = 'rgba(255,255,255,0.15)';
                 localStorage.setItem('theme', 'dark');
                 logoImages.forEach(function(img) {
                     img.src = 'assets/images/branding/dickwray-logo_white.png';
@@ -257,7 +264,12 @@
             var savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
                 document.documentElement.classList.add('light-theme');
-                document.querySelector('#theme-toggle i').className = 'fas fa-sun';
+                var themeIcon = document.getElementById('theme-icon');
+                var toggleBtn = document.getElementById('theme-toggle');
+                themeIcon.innerHTML = '&#9728;';
+                toggleBtn.title = 'Switch to dark mode';
+                toggleBtn.style.background = 'rgba(0,0,0,0.08)';
+                toggleBtn.style.borderColor = 'rgba(0,0,0,0.15)';
                 document.querySelectorAll('#logo-image, .footer-logo-img').forEach(function(img) {
                     img.src = 'assets/images/branding/dickwray-logo_INVERTED.png';
                 });
