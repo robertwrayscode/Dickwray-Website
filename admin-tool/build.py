@@ -160,6 +160,8 @@ def _build_site_impl() -> bool:
         "email": "contact@dickwray.com",
     }
 
+    bio = load_json(DATA_DIR / "bio.json") or {}
+    cv = load_json(DATA_DIR / "cv.json") or {}
     essays = load_json(DATA_DIR / "essays.json") or []
     interviews = load_json(DATA_DIR / "interviews.json") or []
     publications = load_json(DATA_DIR / "publications.json") or []
@@ -219,6 +221,7 @@ def _build_site_impl() -> bool:
         splash_images=splash_images,
         about_image=about_image,
         collections=collections_data,
+        bio_paragraphs=bio.get("bio_paragraphs", []),
     )
     out = SITE_DIR / "index.html"
     write_page(out, html)
@@ -226,7 +229,7 @@ def _build_site_impl() -> bool:
 
     # --- cv.html ---
     tpl = env.get_template("cv.html")
-    html = tpl.render(**common_ctx)
+    html = tpl.render(**common_ctx, cv=cv)
     write_page(SITE_DIR / "cv.html", html)
     generated.append("cv.html")
 

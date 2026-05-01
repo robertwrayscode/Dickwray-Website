@@ -197,6 +197,18 @@ def images_page(collection):
                            collections=COLLECTIONS)
 
 
+@app.route('/bio')
+def bio_page():
+    bio = read_json(os.path.join(DATA_DIR, 'bio.json'), default={})
+    return render_template('admin/bio.html', bio=bio, collections=COLLECTIONS)
+
+
+@app.route('/cv-edit')
+def cv_edit_page():
+    cv = read_json(os.path.join(DATA_DIR, 'cv.json'), default={})
+    return render_template('admin/cv_edit.html', cv=cv, collections=COLLECTIONS)
+
+
 @app.route('/essays')
 def essays_page():
     essays = read_json(os.path.join(DATA_DIR, 'essays.json'))
@@ -276,6 +288,42 @@ def api_delete_image(collection, filename):
         return jsonify({'error': 'File not found'}), 404
     os.remove(filepath)
     return jsonify({'success': True, 'deleted': filename})
+
+
+# ---------------------------------------------------------------------------
+# API — Bio
+# ---------------------------------------------------------------------------
+
+@app.route('/api/bio', methods=['GET'])
+def api_get_bio():
+    return jsonify(read_json(os.path.join(DATA_DIR, 'bio.json'), default={}))
+
+
+@app.route('/api/bio', methods=['POST'])
+def api_save_bio():
+    data = request.get_json(force=True)
+    bio_path = os.path.join(DATA_DIR, 'bio.json')
+    write_json(bio_path, data)
+    return jsonify(data)
+
+
+# ---------------------------------------------------------------------------
+# API — CV
+# ---------------------------------------------------------------------------
+
+@app.route('/api/cv', methods=['GET'])
+def api_get_cv():
+    return jsonify(read_json(os.path.join(DATA_DIR, 'cv.json'), default={}))
+
+
+@app.route('/api/cv', methods=['POST'])
+def api_save_cv():
+    data = request.get_json(force=True)
+    cv_path = os.path.join(DATA_DIR, 'cv.json')
+    cv = read_json(cv_path, default={})
+    cv.update(data)
+    write_json(cv_path, cv)
+    return jsonify(cv)
 
 
 # ---------------------------------------------------------------------------

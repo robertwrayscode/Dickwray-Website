@@ -25,9 +25,9 @@
                 <h2 class="reveal fade-bottom">About the Artist</h2>
                 <div class="about-content">
                     <div class="about-text reveal fade-left">
-                        <p>Dick Wray (1933-2011) was an influential American abstract expressionist painter whose dynamic compositions capture the energy and chaos of the modern world. His work is characterized by bold brushstrokes, vibrant colors, and complex layering techniques.</p>
-                        <p>Born in Houston, Texas, Wray studied architecture before discovering his passion for painting. His architectural background influenced his unique approach to composition and space within his artwork.</p>
-                        <p>Wray's paintings have been exhibited in prestigious galleries and museums throughout the United States and internationally. His legacy continues to inspire contemporary artists exploring the boundaries of abstract expressionism.</p>
+                        {% for p in bio_paragraphs %}
+                        <p>{{ p }}</p>
+                        {% endfor %}
                     </div>
                     <div class="about-image reveal fade-right">
                         <img src="{{ about_image }}" alt="Dick Wray in his studio">
