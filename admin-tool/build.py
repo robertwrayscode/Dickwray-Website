@@ -165,6 +165,7 @@ def _build_site_impl() -> bool:
     essays = load_json(DATA_DIR / "essays.json") or []
     interviews = load_json(DATA_DIR / "interviews.json") or []
     publications = load_json(DATA_DIR / "publications.json") or []
+    image_metadata = load_json(DATA_DIR / "image_metadata.json") or {}
 
     # ------------------------------------------------------------------
     # 3. Scan images
@@ -193,12 +194,28 @@ def _build_site_impl() -> bool:
             col["slug"],
             f"assets/images/collections/homepage/{HOMEPAGE_CARD_MAP.get(col['slug'], col['slug'] + '-card')}.jpg",
         )
+        # Build image objects with metadata
+        images_with_meta = []
+        for img_path in col_images:
+            fname = Path(img_path).name
+            meta_key = f"{col['slug']}/{fname}"
+            meta = image_metadata.get(meta_key, {})
+            images_with_meta.append({
+                "path": img_path,
+                "filename": fname,
+                "title": meta.get("title", ""),
+                "year": meta.get("year", ""),
+                "medium": meta.get("medium", ""),
+                "dimensions": meta.get("dimensions", ""),
+                "notes": meta.get("notes", ""),
+            })
         collections_data.append(
             {
                 "name": col["name"],
                 "slug": col["slug"],
                 "description": col["description"],
                 "images": col_images,
+                "images_with_meta": images_with_meta,
                 "card_image": card_image,
             }
         )

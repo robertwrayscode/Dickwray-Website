@@ -190,10 +190,12 @@ def images_page(collection):
     if collection not in COLLECTIONS:
         abort(404)
     imgs = collection_images(collection)
+    metadata = read_json(_metadata_path(), default={})
     return render_template('admin/images.html',
                            collection=collection,
                            collection_name=COLLECTIONS[collection],
                            images=imgs,
+                           metadata=metadata,
                            collections=COLLECTIONS)
 
 
@@ -288,6 +290,37 @@ def api_delete_image(collection, filename):
         return jsonify({'error': 'File not found'}), 404
     os.remove(filepath)
     return jsonify({'success': True, 'deleted': filename})
+
+
+# ---------------------------------------------------------------------------
+# API — Image Metadata
+# ---------------------------------------------------------------------------
+
+def _metadata_path():
+    return os.path.join(DATA_DIR, 'image_metadata.json')
+
+
+@app.route('/api/image-metadata/<collection>/<filename>', methods=['GET'])
+def api_get_image_metadata(collection, filename):
+    metadata = read_json(_metadata_path(), default={})
+    key = f"{collection}/{filename}"
+    return jsonify(metadata.get(key, {}))
+
+
+@app.route('/api/image-metadata/<collection>/<filename>', methods=['POST'])
+def api_save_image_metadata(collection, filename):
+    data = request.get_json(force=True)
+    metadata = read_json(_metadata_path(), default={})
+    key = f"{collection}/{filename}"
+    metadata[key] = {
+        'title': data.get('title', ''),
+        'year': data.get('year', ''),
+        'medium': data.get('medium', ''),
+        'dimensions': data.get('dimensions', ''),
+        'notes': data.get('notes', ''),
+    }
+    write_json(_metadata_path(), metadata)
+    return jsonify(metadata[key])
 
 
 # ---------------------------------------------------------------------------

@@ -59,6 +59,31 @@
         .gallery-item:hover img {
             transform: scale(1.05);
         }
+        .gallery-item .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 40px 15px 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .image-overlay {
+            opacity: 1;
+        }
+        .image-overlay .img-title {
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin: 0 0 3px;
+        }
+        .image-overlay .img-details {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            margin: 0;
+        }
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -73,6 +98,25 @@
         }
         .back-link:hover {
             color: #ff3d00;
+        }
+        /* Lightbox caption */
+        .lightbox-caption {
+            text-align: center;
+            color: #fff;
+            padding: 12px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .lightbox-caption .lb-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0 0 4px;
+        }
+        .lightbox-caption .lb-details {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
         }
     </style>
 </head>
@@ -151,29 +195,109 @@
         <section class="collection-gallery">
             <a href="index.html#collections" class="back-link"><i class="fas fa-arrow-left"></i> Back to Collections</a>
             <div class="collection-gallery-grid">
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1428-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1428-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1428-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1428-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1429-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1429-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1429-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1429-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1430-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1430-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1430-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1430-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1431-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1431-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1431-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1431-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1443-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1443-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1443-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1443-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1450-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1450-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1450-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1450-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
-                <div class="gallery-item" data-src="assets/images/collections/large-works/1452-Wray-Estate-Inventory.jpg">
-                    <img src="assets/images/collections/large-works/1452-Wray-Estate-Inventory.jpg" alt="Large Works artwork" loading="lazy">
+                <div class="gallery-item"
+                     data-src="assets/images/collections/large-works/1452-Wray-Estate-Inventory.jpg"
+                     data-title="Untitled"
+                     data-year=""
+                     data-medium=""
+                     data-dimensions="">
+                    <img src="assets/images/collections/large-works/1452-Wray-Estate-Inventory.jpg" alt="Untitled" loading="lazy">
+                    <div class="image-overlay">
+                        <p class="img-title">Untitled</p>
+                        <p class="img-details">
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -182,6 +306,10 @@
     <div class="lightbox" id="collection-lightbox">
         <span class="close">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption" style="display:none;">
+            <p class="lb-title" id="lb-title"></p>
+            <p class="lb-details" id="lb-details"></p>
+        </div>
         <div class="lightbox-controls">
             <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
             <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
@@ -357,31 +485,56 @@
         (function() {
             var lightbox = document.getElementById('collection-lightbox');
             var lightboxImg = document.getElementById('lightbox-img');
+            var captionEl = document.getElementById('lightbox-caption');
+            var lbTitle = document.getElementById('lb-title');
+            var lbDetails = document.getElementById('lb-details');
             var galleryItems = document.querySelectorAll('.gallery-item[data-src]');
             var currentIndex = 0;
-            var images = [];
+            var items = [];
 
             galleryItems.forEach(function(item, index) {
-                images.push(item.getAttribute('data-src'));
+                items.push({
+                    src: item.getAttribute('data-src'),
+                    title: item.getAttribute('data-title') || '',
+                    year: item.getAttribute('data-year') || '',
+                    medium: item.getAttribute('data-medium') || '',
+                    dimensions: item.getAttribute('data-dimensions') || ''
+                });
                 item.addEventListener('click', function() {
                     currentIndex = index;
-                    lightboxImg.src = images[currentIndex];
+                    showImage(currentIndex);
                     lightbox.style.display = 'flex';
                 });
             });
+
+            function showImage(idx) {
+                var img = items[idx];
+                lightboxImg.src = img.src;
+                if (img.title) {
+                    lbTitle.textContent = img.title;
+                    var details = [];
+                    if (img.year) details.push(img.year);
+                    if (img.medium) details.push(img.medium);
+                    if (img.dimensions) details.push(img.dimensions);
+                    lbDetails.textContent = details.join(' · ');
+                    captionEl.style.display = 'block';
+                } else {
+                    captionEl.style.display = 'none';
+                }
+            }
 
             lightbox.querySelector('.close').addEventListener('click', function() {
                 lightbox.style.display = 'none';
             });
 
             lightbox.querySelector('.prev-btn').addEventListener('click', function() {
-                currentIndex = (currentIndex - 1 + images.length) % images.length;
-                lightboxImg.src = images[currentIndex];
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                showImage(currentIndex);
             });
 
             lightbox.querySelector('.next-btn').addEventListener('click', function() {
-                currentIndex = (currentIndex + 1) % images.length;
-                lightboxImg.src = images[currentIndex];
+                currentIndex = (currentIndex + 1) % items.length;
+                showImage(currentIndex);
             });
 
             document.addEventListener('keydown', function(e) {
