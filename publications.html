@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dick Wray | Publications</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-effects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3b73dfb188.js" crossorigin="anonymous"></script>
+    <style>
+        .light-theme .dropdown-menu {
+            background-color: white !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+        .light-theme .dropdown-menu li a {
+            color: #333333 !important;
+        }
+        .light-theme .dropdown-menu li a:hover {
+            background-color: #f5f5f5 !important;
+        }
+        .light-theme footer { color: #333333; }
+        .light-theme footer h3,
+        .light-theme footer a,
+        .light-theme footer p,
+        .light-theme .footer-bottom p,
+        .light-theme .social-icon { color: #333333 !important; }
+
+        .simple-header {
+            text-align: center;
+            padding: 120px 20px 40px;
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .light-theme .simple-header {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        .simple-header h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .light-theme .content-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        .content-card h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ff3d00;
+        }
+        .content-card .meta {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+        .content-card .description {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.6;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <span class="loader-text"><img src="assets/images/branding/Signature_white.png" alt="Dick Wray Signature" class="signature-image"></span>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" title="Switch between dark and light themes" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 50px !important; height: 50px !important; z-index: 9999 !important; background-color: #ff3d00 !important; cursor: pointer !important; box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important; border-radius: 50% !important;">
+        <i class="fas fa-moon" style="font-size: 1.5rem !important;"></i>
+    </button>
+
+    <!-- Scroll To Top Button -->
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img id="logo-image" src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">About <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html#about">Biography</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li class="dropdown">
+                    <a href="index.html#collections">Collections <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="watercolors.html">Watercolors</a></li>
+                        <li><a href="black-and-whites.html">Black &amp; Whites</a></li>
+                        <li><a href="early-works.html">Early Works</a></li>
+                        <li><a href="large-works.html">Large Works</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Writings <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="essays.html">Essays</a></li>
+                        <li><a href="interviews.html">Interviews</a></li>
+                        <li><a href="publications.html">Publications</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="simple-header">
+            <h1 class="reveal fade-bottom">Publications</h1>
+        </div>
+
+        <section class="content-section">
+                <div class="content-card reveal fade-bottom">
+                    <h3>Interview with my Dad</h3>
+                    <div class="meta">
+<span>By Robert</span> &bull; <span>https://www.msn.com/en-us/news/politics/california-is-ready-to-fight-trump-again-this-time-over-tariffs/ar-AA1CjHSc?ocid=winp2fptaskbarent&amp;cvid=a812e0499f864a0c9fbd5409ad5bae3f&amp;ei=5</span> &bull; <span>2025-04-04</span>                    </div>
+                    <div class="description">
+                        <p>Hey Dad, what&#39;s up? Now much, you?
+
+Robert</p>
+                    </div>
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo" class="footer-logo-img">
+            </div>
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-collections">
+                <h3>Collections</h3>
+                <ul>
+                    <li><a href="watercolors.html">Watercolors</a></li>
+                    <li><a href="black-and-whites.html">Black &amp; Whites</a></li>
+                    <li><a href="early-works.html">Early Works</a></li>
+                    <li><a href="large-works.html">Large Works</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Dick Wray Estate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Theme toggle function
+        function toggleTheme() {
+            var root = document.documentElement;
+            var themeIcon = document.querySelector('#theme-toggle i');
+            var logoImages = document.querySelectorAll('#logo-image, .footer-logo-img');
+            var signatureImages = document.querySelectorAll('.signature-image');
+
+            root.classList.toggle('light-theme');
+
+            if (root.classList.contains('light-theme')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+                logoImages.forEach(function(img) {
+                    img.src = 'assets/images/branding/dickwray-logo_INVERTED.png';
+                });
+                signatureImages.forEach(function(img) {
+                    img.src = 'assets/images/branding/Signature_black.png';
+                });
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+                logoImages.forEach(function(img) {
+                    img.src = 'assets/images/branding/dickwray-logo_white.png';
+                });
+                signatureImages.forEach(function(img) {
+                    img.src = 'assets/images/branding/Signature_white.png';
+                });
+            }
+        }
+
+        // Check for saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.add('light-theme');
+                document.querySelector('#theme-toggle i').className = 'fas fa-sun';
+                document.querySelectorAll('#logo-image, .footer-logo-img').forEach(function(img) {
+                    img.src = 'assets/images/branding/dickwray-logo_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(function(img) {
+                    img.src = 'assets/images/branding/Signature_black.png';
+                });
+            }
+
+            // Remove loader after page load
+            var loader = document.querySelector('.loader-container');
+            setTimeout(function() {
+                loader.classList.add('fade-out');
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+
+            // Reveal animations on scroll
+            var revealElements = document.querySelectorAll('.reveal');
+            function revealOnScroll() {
+                var windowHeight = window.innerHeight;
+                revealElements.forEach(function(element) {
+                    var elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 150) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+
+        // Mobile navigation
+        (function() {
+            var burger = document.querySelector('.burger');
+            var nav = document.querySelector('.nav-links');
+            var navLinks = document.querySelectorAll('.nav-links li');
+
+            burger.addEventListener('click', function() {
+                nav.classList.toggle('nav-active');
+                navLinks.forEach(function(link, index) {
+                    if (link.style.animation) {
+                        link.style.animation = '';
+                    } else {
+                        link.style.animation = 'navLinkFade 0.5s ease forwards ' + (index / 7 + 0.3) + 's';
+                    }
+                });
+                burger.classList.toggle('toggle');
+            });
+        })();
+
+        // Scroll to top functionality
+        (function() {
+            var scrollTopBtn = document.querySelector('.scroll-to-top');
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+            });
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

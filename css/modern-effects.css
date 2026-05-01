@@ -1,0 +1,465 @@
+/* Modern Effects and Animations for Dick Wray Artist Website */
+
+/* Scroll Reveal Animations */
+.reveal {
+  position: relative;
+  opacity: 1;
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+}
+
+.reveal.fade-bottom {
+  transform: translateY(0);
+}
+
+.reveal.fade-bottom.active {
+  transform: translateY(0);
+}
+
+.reveal.fade-left {
+  transform: translateX(0);
+}
+
+.reveal.fade-left.active {
+  transform: translateX(0);
+}
+
+.reveal.fade-right {
+  transform: translateX(0);
+}
+
+.reveal.fade-right.active {
+  transform: translateX(0);
+}
+
+.reveal.zoom-in {
+  transform: scale(1);
+}
+
+.reveal.zoom-in.active {
+  transform: scale(1);
+}
+
+/* Delay classes */
+.delay-1 {
+  transition-delay: 0.1s;
+}
+
+.delay-2 {
+  transition-delay: 0.2s;
+}
+
+.delay-3 {
+  transition-delay: 0.3s;
+}
+
+.delay-4 {
+  transition-delay: 0.4s;
+}
+
+.delay-5 {
+  transition-delay: 0.5s;
+}
+
+/* Parallax Effect */
+.parallax {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-position 0.1s ease-out;
+  will-change: transform;
+}
+
+/* Text Split Animation */
+.split-text {
+  overflow: hidden;
+  position: relative;
+}
+
+.split-text .word {
+  display: inline-block;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), 
+              opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.split-text.active .word {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Word delay for text animation */
+.split-text .word:nth-child(1) { transition-delay: 0.1s; }
+.split-text .word:nth-child(2) { transition-delay: 0.15s; }
+.split-text .word:nth-child(3) { transition-delay: 0.2s; }
+.split-text .word:nth-child(4) { transition-delay: 0.25s; }
+.split-text .word:nth-child(5) { transition-delay: 0.3s; }
+.split-text .word:nth-child(6) { transition-delay: 0.35s; }
+.split-text .word:nth-child(7) { transition-delay: 0.4s; }
+.split-text .word:nth-child(8) { transition-delay: 0.45s; }
+.split-text .word:nth-child(9) { transition-delay: 0.5s; }
+.split-text .word:nth-child(10) { transition-delay: 0.55s; }
+
+/* Floating Scroll To Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 99;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-to-top.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Modern Image Hover Effect */
+.gallery-item::before,
+.collection-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 61, 0, 0) 0%, rgba(255, 61, 0, 0.6) 100%);
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover::before,
+.collection-item:hover::before {
+  opacity: 0.3;
+}
+
+/* 3D Tilt Effect */
+.tilt {
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  transition: transform 0.1s;
+}
+
+.tilt-child {
+  transform: translateZ(20px);
+}
+
+/* Modern Loader */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loader-container.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.loader-text {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  letter-spacing: 3px;
+  color: var(--text-color);
+  font-family: var(--font-heading);
+  font-weight: 300;
+}
+
+.loader .circle {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--accent-color);
+  animation: spin 1.2s linear infinite;
+}
+
+.loader .circle:nth-child(2) {
+  width: 60px;
+  height: 60px;
+  top: 10px;
+  left: 10px;
+  border-top-color: var(--text-color);
+  animation: spin 1.5s linear infinite reverse;
+}
+
+.loader .circle:nth-child(3) {
+  width: 40px;
+  height: 40px;
+  top: 20px;
+  left: 20px;
+  border-top-color: var(--accent-color);
+  animation: spin 1.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Cursor Trailer Effect */
+.cursor-trailer {
+  display: none;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed !important;
+  top: 150px !important;
+  left: 30px !important;
+  right: auto !important;
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.theme-toggle i {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover i {
+  transform: rotate(180deg);
+}
+
+/* Light theme variables */
+:root.light-theme {
+  --primary-color: #ffffff;
+  --secondary-color: #171717;
+  --accent-color: #ff3d00;
+  --text-color: #333333;
+  --text-color-dark: #f5f5f5;
+  --background-color: #f5f5f5;
+  --background-light: #ffffff;
+}
+
+/* Light theme specific overrides */
+:root.light-theme .nav-links li a {
+  color: #333333;
+}
+
+:root.light-theme header {
+  background-color: rgba(245, 245, 245, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+:root.light-theme .burger div {
+  background-color: #333333;
+}
+
+:root.light-theme .dropdown-menu {
+  background-color: rgba(245, 245, 245, 0.95);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+:root.light-theme .dropdown-menu li a {
+  color: #333333;
+}
+
+:root.light-theme .dropdown-menu li a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--accent-color);
+}
+
+/* Additional light theme overrides for footer and other elements */
+:root.light-theme footer {
+  background-color: #e5e5e5;
+}
+
+:root.light-theme .footer-links h3,
+:root.light-theme .footer-collections h3,
+:root.light-theme .footer-social h3 {
+  color: #333333;
+}
+
+:root.light-theme .footer-links ul li a,
+:root.light-theme .footer-collections ul li a {
+  color: rgba(51, 51, 51, 0.7);
+}
+
+:root.light-theme .footer-links ul li a:hover,
+:root.light-theme .footer-collections ul li a:hover {
+  color: #333333;
+}
+
+:root.light-theme .social-icons a {
+  color: rgba(51, 51, 51, 0.7);
+}
+
+:root.light-theme .social-icons a:hover {
+  color: var(--accent-color);
+}
+
+:root.light-theme .footer-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(51, 51, 51, 0.5);
+}
+
+:root.light-theme .gallery,
+:root.light-theme .contact {
+  background-color: #ffffff;
+}
+
+:root.light-theme .about,
+:root.light-theme .collections {
+  background-color: #f5f5f5;
+}
+
+/* Light theme form field fixes */
+:root.light-theme .form-group input,
+:root.light-theme .form-group textarea {
+  color: var(--text-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+:root.light-theme .form-group label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+:root.light-theme .form-group input:focus,
+:root.light-theme .form-group textarea:focus {
+  border-bottom: 1px solid var(--accent-color);
+}
+
+:root.light-theme .form-group input:focus ~ label,
+:root.light-theme .form-group textarea:focus ~ label,
+:root.light-theme .form-group input:valid ~ label,
+:root.light-theme .form-group textarea:valid ~ label {
+  color: var(--accent-color);
+}
+
+:root.light-theme .btn {
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+}
+
+:root.light-theme .btn:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--secondary-color);
+}
+
+/* Smooth transitions for theme toggle */
+body, a, .btn, .gallery-item img, .collection-item img, .form-group input,
+.form-group textarea, .social-icons a, .lightbox, header, footer,
+.footer-links ul li a, .footer-collections ul li a, .cursor, .cursor-trailer,
+.nav-links li a::after, .dropdown-menu, .theme-toggle, .scroll-to-top,
+.gallery-item::before, .collection-item::before {
+  transition: all 0.3s ease;
+}
+
+/* Masonry Gallery Layout */
+.masonry-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.masonry-item.active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Adjust for different screen sizes */
+@media screen and (max-width: 992px) {
+  .masonry-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .masonry-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modern Scroll Bar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}

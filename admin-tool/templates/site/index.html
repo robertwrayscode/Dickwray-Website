@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}{{ settings.site_title }}{% endblock %}
+
+{% block content %}
+        <section class="hero">
+            <div class="hero-text">
+                <h1 class="split-text"><img src="assets/images/branding/Signature_white.png" alt="Dick Wray Signature" class="signature-image"></h1>
+                <h2 class="split-text delay-2"><span class="word">Abstract</span> <span class="word">Expressionist</span></h2>
+                <p class="reveal fade-bottom delay-3">Exploring chaos, emotion, and the human experience through vibrant abstraction</p>
+            </div>
+            <div class="hero-image">
+                <div class="slideshow" id="hero-slideshow">
+                    {% for image in splash_images %}
+                    <div class="slide{% if loop.first %} active{% endif %}">
+                        <img src="{{ image }}" alt="Dick Wray Artwork">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about reveal fade-bottom">
+            <div class="about-container">
+                <h2 class="reveal fade-bottom">About the Artist</h2>
+                <div class="about-content">
+                    <div class="about-text reveal fade-left">
+                        <p>Dick Wray (1933-2011) was an influential American abstract expressionist painter whose dynamic compositions capture the energy and chaos of the modern world. His work is characterized by bold brushstrokes, vibrant colors, and complex layering techniques.</p>
+                        <p>Born in Houston, Texas, Wray studied architecture before discovering his passion for painting. His architectural background influenced his unique approach to composition and space within his artwork.</p>
+                        <p>Wray's paintings have been exhibited in prestigious galleries and museums throughout the United States and internationally. His legacy continues to inspire contemporary artists exploring the boundaries of abstract expressionism.</p>
+                    </div>
+                    <div class="about-image reveal fade-right">
+                        <img src="{{ about_image }}" alt="Dick Wray in his studio">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery reveal fade-bottom">
+            <h2 class="reveal fade-bottom">Featured Works</h2>
+            <div class="gallery-grid" id="featured-gallery-grid">
+                {% for image in splash_images %}
+                <div class="gallery-item tilt" data-src="{{ image }}">
+                    <img src="{{ image }}" alt="Dick Wray Artwork" class="tilt-child">
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="collections" class="collections reveal fade-bottom">
+            <h2 class="reveal fade-bottom">Collections</h2>
+            <div class="collection-grid" id="collection-grid">
+                {% for col in collections %}
+                <a href="{{ col.slug }}.html" class="collection-item tilt">
+                    <img src="{{ col.card_image }}" alt="{{ col.name }}" class="tilt-child">
+                    <div class="collection-overlay">
+                        <h3 class="tilt-child">{{ col.name }}</h3>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="contact-container">
+                <h2>Contact</h2>
+                <p>For inquiries about Dick Wray's artwork, exhibitions, or acquisitions, please fill out the form below.</p>
+                <form id="contact-form" action="https://formspree.io/f/moveneoa" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" required></textarea>
+                        <label for="message">Message</label>
+                    </div>
+                    <input type="hidden" name="_subject" value="Dick Wray Website Inquiry">
+                    <input type="hidden" name="_next" value="#">
+                    <input type="hidden" name="_captcha" value="false">
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+                <div id="form-success" class="form-success-message" style="display: none;">
+                    <div class="success-content">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Thank you for your message!</h3>
+                        <p>Your inquiry has been sent successfully.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <div class="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content">
+        <div class="lightbox-controls">
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // Hero slideshow
+        (function() {
+            var slides = document.querySelectorAll('#hero-slideshow .slide');
+            if (slides.length <= 1) return;
+            var current = 0;
+            setInterval(function() {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 5000);
+        })();
+
+        // Lightbox functionality
+        (function() {
+            var lightbox = document.querySelector('.lightbox');
+            var lightboxImg = document.querySelector('.lightbox-content');
+            var galleryItems = document.querySelectorAll('.gallery-item[data-src]');
+            var currentIndex = 0;
+            var images = [];
+
+            galleryItems.forEach(function(item, index) {
+                images.push(item.getAttribute('data-src'));
+                item.addEventListener('click', function() {
+                    currentIndex = index;
+                    lightboxImg.src = images[currentIndex];
+                    lightbox.style.display = 'flex';
+                });
+            });
+
+            document.querySelector('.lightbox .close').addEventListener('click', function() {
+                lightbox.style.display = 'none';
+            });
+
+            document.querySelector('.prev-btn').addEventListener('click', function() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                lightboxImg.src = images[currentIndex];
+            });
+
+            document.querySelector('.next-btn').addEventListener('click', function() {
+                currentIndex = (currentIndex + 1) % images.length;
+                lightboxImg.src = images[currentIndex];
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (lightbox.style.display !== 'flex') return;
+                if (e.key === 'Escape') lightbox.style.display = 'none';
+                if (e.key === 'ArrowLeft') document.querySelector('.prev-btn').click();
+                if (e.key === 'ArrowRight') document.querySelector('.next-btn').click();
+            });
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) lightbox.style.display = 'none';
+            });
+        })();
+
+        // Contact form submission
+        (function() {
+            var form = document.getElementById('contact-form');
+            if (!form) return;
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(function(response) {
+                    if (response.ok) {
+                        form.style.display = 'none';
+                        document.getElementById('form-success').style.display = 'block';
+                    }
+                });
+            });
+        })();
+    </script>
+{% endblock %}
