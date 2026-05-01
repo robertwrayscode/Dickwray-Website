@@ -481,26 +481,29 @@ def api_save_settings():
 
 @app.route('/build', methods=['POST'])
 def build_site():
+    # build.py lives in the admin-tool directory (same as app.py)
+    admin_dir = os.path.dirname(os.path.abspath(__file__))
+    build_script = os.path.join(admin_dir, 'build.py')
+
     try:
-        # Try to import build module from the site root
-        sys.path.insert(0, SITE_DIR)
-        # Reload if already imported
+        # Try to import build module from admin-tool directory
+        sys.path.insert(0, admin_dir)
+        # Always reload to pick up changes
         if 'build' in sys.modules:
             del sys.modules['build']
         from build import build_site as do_build
         result = do_build()
         return jsonify({
-            'success': True,
-            'message': 'Site built successfully',
+            'success': True if result else False,
+            'message': 'Site built successfully' if result else 'Build returned False',
             'files': result if isinstance(result, list) else [],
         })
-    except ImportError:
+    except ImportError as ie:
         # Fallback: try running build.py as a script
-        build_script = os.path.join(SITE_DIR, 'build.py')
         if not os.path.isfile(build_script):
             return jsonify({
                 'success': False,
-                'message': 'build.py not found in site directory',
+                'message': f'build.py not found. Import error: {ie}',
             }), 404
         try:
             proc = subprocess.run(
@@ -516,7 +519,8 @@ def build_site():
         except subprocess.TimeoutExpired:
             return jsonify({'success': False, 'message': 'Build timed out'}), 500
     except Exception as e:
-        return jsonify({'success': False, 'message': str(e)}), 500
+        import traceback
+        return jsonify({'success': False, 'message': str(e) + '\n' + traceback.format_exc()}), 500
 
 
 @app.route('/deploy', methods=['POST'])
