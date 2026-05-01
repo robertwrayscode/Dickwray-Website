@@ -110,11 +110,11 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--accent-color);
-  color: var(--text-color);
-  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  background-color: rgba(255, 61, 0, 0.85);
+  color: #ffffff;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +124,8 @@
   transform: translateY(20px);
   transition: all 0.3s ease;
   z-index: 99;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 1.2rem;
 }
 
 .scroll-to-top.active {
@@ -134,10 +135,9 @@
 }
 
 .scroll-to-top:hover {
-  background-color: var(--text-color);
-  color: var(--accent-color);
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* Modern Image Hover Effect */

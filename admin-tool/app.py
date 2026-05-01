@@ -138,6 +138,25 @@ def preview_site(filename='index.html'):
     return send_from_directory(SITE_DIR, filename)
 
 
+# Serve site CSS, JS, and assets at root paths so preview links work
+@app.route('/css/<path:filename>')
+def serve_css(filename):
+    return send_from_directory(os.path.join(SITE_DIR, 'css'), filename)
+
+@app.route('/js/<path:filename>')
+def serve_js(filename):
+    return send_from_directory(os.path.join(SITE_DIR, 'js'), filename)
+
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    return send_from_directory(os.path.join(SITE_DIR, 'assets'), filename)
+
+# Serve site HTML pages (for preview nav links like interviews.html)
+@app.route('/<page>.html')
+def serve_site_page(page):
+    return send_from_directory(SITE_DIR, f'{page}.html')
+
+
 # ---------------------------------------------------------------------------
 # Page routes
 # ---------------------------------------------------------------------------
