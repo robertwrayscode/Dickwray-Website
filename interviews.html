@@ -104,8 +104,8 @@
     </div>
 
     <!-- Theme Toggle -->
-    <button id="theme-toggle" class="theme-toggle" title="Switch to light mode" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 40px !important; height: 40px !important; z-index: 9999 !important; background: rgba(255,255,255,0.12) !important; backdrop-filter: blur(8px) !important; cursor: pointer !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; border-radius: 8px !important; border: 1px solid rgba(255,255,255,0.15) !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important;">
-        <span id="theme-icon" style="font-size: 1.2rem !important; line-height: 1 !important;">&#9790;</span>
+    <button id="theme-toggle" class="theme-toggle" title="Switch to light mode" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 40px !important; height: 40px !important; z-index: 9999 !important; background: rgba(255,255,255,0.25) !important; backdrop-filter: blur(8px) !important; cursor: pointer !important; box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important; border-radius: 8px !important; border: 1px solid rgba(255,255,255,0.35) !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important;">
+        <span id="theme-icon" style="font-size: 1.4rem !important; line-height: 1 !important; color: rgba(255,255,255,0.9) !important;">&#9790;</span>
     </button>
 
     <!-- Scroll To Top Button -->
@@ -245,8 +245,8 @@
             } else {
                 themeIcon.innerHTML = '&#9790;';
                 toggleBtn.title = 'Switch to light mode';
-                toggleBtn.style.background = 'rgba(255,255,255,0.12)';
-                toggleBtn.style.borderColor = 'rgba(255,255,255,0.15)';
+                toggleBtn.style.background = 'rgba(255,255,255,0.25)';
+                toggleBtn.style.borderColor = 'rgba(255,255,255,0.35)';
                 localStorage.setItem('theme', 'dark');
                 logoImages.forEach(function(img) {
                     img.src = 'assets/images/branding/dickwray-logo_white.png';
