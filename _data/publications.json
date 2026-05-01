@@ -1,13 +1,11 @@
 [
-    {
-        "id": "pub_67f03b668f2cd",
-        "title": "Interview with my Dad",
-        "author": "Robert",
-        "publication": "https:\/\/www.msn.com\/en-us\/news\/politics\/california-is-ready-to-fight-trump-again-this-time-over-tariffs\/ar-AA1CjHSc?ocid=winp2fptaskbarent&cvid=a812e0499f864a0c9fbd5409ad5bae3f&ei=5",
-        "date": "2025-04-04",
-        "description": "Hey Dad, what's up? Now much, you?\r\n\r\nRobert",
-        "cover_url": "assets\/publications\/covers\/1743797094_Painting1_July-4-2007-772x1024.jpg",
-        "pdf_url": "",
-        "created_at": "2025-04-04 22:04:54"
-    }
+  {
+    "id": "8000220b",
+    "title": "Interview at the Heritage Society",
+    "author": "Robert",
+    "url": "",
+    "date": "4/20/2026",
+    "description": "I was interviewed by the Heritage Society of houston about growing up with my dad.",
+    "cover_image": ""
+  }
 ]
