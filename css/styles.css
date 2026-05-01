@@ -1126,28 +1126,30 @@ footer {
         opacity: 1;
         visibility: visible;
         transform: none;
+        border: none;
     }
-    
-    .dropdown-menu.active-mobile {
+
+    .dropdown.active-mobile .dropdown-menu {
         display: block;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
     }
-    
+
     .dropdown-menu li {
-        margin: 0.5rem 0;
+        margin: 0.3rem 0;
         text-align: center;
     }
-    
+
     .dropdown-menu li a {
-        padding: 0.5rem;
-        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        display: block;
     }
-    
+
     .dropdown:hover .dropdown-menu {
         display: none;
     }
-    
-    .dropdown:hover .dropdown-menu.active-mobile {
+
+    .dropdown.active-mobile:hover .dropdown-menu {
         display: block;
     }
     

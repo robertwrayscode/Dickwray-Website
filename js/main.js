@@ -132,23 +132,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Dropdown menus on mobile
+        // Dropdown menus on mobile — tap parent to expand, tap sub-link to navigate
         var dropdowns = navLinks.querySelectorAll('.dropdown');
         dropdowns.forEach(function (dropdown) {
-            dropdown.addEventListener('click', function (e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    this.classList.toggle('active-mobile');
-                }
-            });
+            var parentLink = dropdown.querySelector(':scope > a');
+            if (parentLink) {
+                parentLink.addEventListener('click', function (e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Close other open dropdowns
+                        dropdowns.forEach(function (other) {
+                            if (other !== dropdown) other.classList.remove('active-mobile');
+                        });
+                        dropdown.classList.toggle('active-mobile');
+                    }
+                });
+            }
         });
 
-        // Close menu when a nav link is clicked
-        var allNavLinks = navLinks.querySelectorAll('a');
-        allNavLinks.forEach(function (link) {
+        // Close menu when a nav sub-link is clicked (but not the dropdown parent)
+        var subLinks = navLinks.querySelectorAll('.dropdown-menu a, .nav-links > li:not(.dropdown) > a');
+        subLinks.forEach(function (link) {
             link.addEventListener('click', function () {
                 navLinks.classList.remove('active');
                 burger.classList.remove('active');
+                dropdowns.forEach(function (d) { d.classList.remove('active-mobile'); });
                 var items = navLinks.querySelectorAll('li');
                 items.forEach(function (item) {
                     item.style.animation = '';

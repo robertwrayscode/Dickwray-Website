@@ -214,19 +214,49 @@
         (function() {
             var burger = document.querySelector('.burger');
             var nav = document.querySelector('.nav-links');
-            var navLinks = document.querySelectorAll('.nav-links li');
+            var navLinkItems = document.querySelectorAll('.nav-links li');
 
-            burger.addEventListener('click', function() {
-                nav.classList.toggle('nav-active');
-                navLinks.forEach(function(link, index) {
-                    if (link.style.animation) {
-                        link.style.animation = '';
-                    } else {
-                        link.style.animation = 'navLinkFade 0.5s ease forwards ' + (index / 7 + 0.3) + 's';
+            if (burger && nav) {
+                burger.addEventListener('click', function() {
+                    nav.classList.toggle('active');
+                    burger.classList.toggle('active');
+                    navLinkItems.forEach(function(link, index) {
+                        if (link.style.animation) {
+                            link.style.animation = '';
+                        } else {
+                            link.style.animation = 'navLinkFade 0.5s ease forwards ' + (index / 7 + 0.3) + 's';
+                        }
+                    });
+                });
+
+                // Mobile dropdowns
+                var dropdowns = nav.querySelectorAll('.dropdown');
+                dropdowns.forEach(function(dropdown) {
+                    var parentLink = dropdown.querySelector(':scope > a');
+                    if (parentLink) {
+                        parentLink.addEventListener('click', function(e) {
+                            if (window.innerWidth <= 768) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                dropdowns.forEach(function(other) {
+                                    if (other !== dropdown) other.classList.remove('active-mobile');
+                                });
+                                dropdown.classList.toggle('active-mobile');
+                            }
+                        });
                     }
                 });
-                burger.classList.toggle('toggle');
-            });
+
+                // Close menu when sub-link is tapped
+                var subLinks = nav.querySelectorAll('.dropdown-menu a');
+                subLinks.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        nav.classList.remove('active');
+                        burger.classList.remove('active');
+                        dropdowns.forEach(function(d) { d.classList.remove('active-mobile'); });
+                    });
+                });
+            }
         })();
 
         // Scroll to top functionality
