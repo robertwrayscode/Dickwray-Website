@@ -14,43 +14,130 @@
         .light-theme .dropdown-menu li a:hover {
             background-color: #f5f5f5 !important;
         }
-        .light-theme footer {
-            color: #333333;
-        }
+        .light-theme footer { color: #333333; }
         .light-theme footer h3,
         .light-theme footer a,
         .light-theme footer p,
         .light-theme .footer-bottom p,
-        .light-theme .social-icon {
-            color: #333333 !important;
+        .light-theme .social-icon { color: #333333 !important; }
+
+        .simple-header {
+            text-align: center;
+            padding: 120px 20px 40px;
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .light-theme .simple-header {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        .simple-header h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .light-theme .content-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        .content-card h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ff3d00;
+        }
+        .content-card .meta {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+        .content-card .description {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+        .essay-full-content {
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light-theme .essay-full-content {
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+        .essay-full-content h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #ff3d00;
+        }
+        .essay-full-content p {
+            margin-bottom: 15px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.6;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-        <section class="essays-container">
-            <h1 class="page-title reveal fade-bottom">Essays</h1>
+        <div class="simple-header">
+            <h1 class="reveal fade-bottom">Essays</h1>
+        </div>
 
+        <section class="content-section">
             {% if essays %}
-            {% for essay in essays %}
-            <article class="essay reveal fade-bottom">
-                <h2>{{ essay.title }}</h2>
-                <div class="essay-meta">
-                    {% if essay.author %}<span>{{ essay.author }}</span>{% endif %}
-                    {% if essay.date %}<span>{{ essay.date }}</span>{% endif %}
-                </div>
-                <div class="essay-content">
-                    {{ essay.content|safe }}
-                </div>
-            </article>
-            {% endfor %}
-            {% else %}
-            <div class="content-section">
+                {% for essay in essays %}
                 <div class="content-card reveal fade-bottom">
+                    <h3>{{ essay.title }}</h3>
+                    <div class="meta">
+                        {% if essay.author %}<span>By {{ essay.author }}</span>{% endif %}
+                        {% if essay.date %} &bull; <span>{{ essay.date }}</span>{% endif %}
+                    </div>
+                    {% if essay.description %}
+                    <div class="description">
+                        <p>{{ essay.description }}</p>
+                    </div>
+                    {% endif %}
+                    {% if essay.content %}
+                    <div class="essay-full-content">
+                        {{ essay.content|safe }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-pen-fancy"></i>
                     <h3>Essays Coming Soon</h3>
                     <p>Check back soon for essays about Dick Wray's art and legacy.</p>
                 </div>
-            </div>
             {% endif %}
         </section>
 {% endblock %}

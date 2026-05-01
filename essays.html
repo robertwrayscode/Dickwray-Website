@@ -21,15 +21,94 @@
         .light-theme .dropdown-menu li a:hover {
             background-color: #f5f5f5 !important;
         }
-        .light-theme footer {
-            color: #333333;
-        }
+        .light-theme footer { color: #333333; }
         .light-theme footer h3,
         .light-theme footer a,
         .light-theme footer p,
         .light-theme .footer-bottom p,
-        .light-theme .social-icon {
-            color: #333333 !important;
+        .light-theme .social-icon { color: #333333 !important; }
+
+        .simple-header {
+            text-align: center;
+            padding: 120px 20px 40px;
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .light-theme .simple-header {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        .simple-header h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .light-theme .content-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        .content-card h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ff3d00;
+        }
+        .content-card .meta {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+        .content-card .description {
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+        .essay-full-content {
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light-theme .essay-full-content {
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+        .essay-full-content h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #ff3d00;
+        }
+        .essay-full-content p {
+            margin-bottom: 15px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            opacity: 0.6;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
         }
     </style>
 </head>
@@ -98,15 +177,20 @@
     </header>
 
     <main>
-        <section class="essays-container">
-            <h1 class="page-title reveal fade-bottom">Essays</h1>
+        <div class="simple-header">
+            <h1 class="reveal fade-bottom">Essays</h1>
+        </div>
 
-            <article class="essay reveal fade-bottom">
-                <h2>Dick Wray: A Titan of Texas Abstraction</h2>
-                <div class="essay-meta">
-                </div>
-                <div class="essay-content">
-                    <h3>Introduction: The Legacy of a Texas Visionary</h3>
+        <section class="content-section">
+                <div class="content-card reveal fade-bottom">
+                    <h3>Dick Wray: A Titan of Texas Abstraction</h3>
+                    <div class="meta">
+                    </div>
+                    <div class="description">
+                        <p>A comprehensive overview of Dick Wray&#39;s career spanning four decades, from early exhibitions in the late 1950s through his recognition as Texas Artist of the Year in 2000. Covers his early career, emergence in the 1970s, national recognition in the 1980s, mastery in the 1990s, and lasting legacy.</p>
+                    </div>
+                    <div class="essay-full-content">
+                        <h3>Introduction: The Legacy of a Texas Visionary</h3>
 <p>Dick Wray stands as one of the most significant figures in the landscape of Texas abstract expressionism, carving out a distinctive voice that resonated from Houston to New York and beyond. His career, spanning more than four decades from the late 1950s through the early 2000s, encapsulates a relentless pursuit of artistic innovation, a fearless approach to abstraction, and an unwavering commitment to his unique visual language. The culmination of this remarkable journey was his recognition as Texas Artist of the Year in 2000, cementing his place in the pantheon of Texas art history.</p>
 
 <h3>Early Career and Foundations (1959-1970)</h3>
@@ -136,8 +220,8 @@
 <p>His work found homes in major museums, important private collections, and galleries across Texas, the United States, and internationally. The geographic scope of his exhibitions—from Houston and Dallas to New York, from Norway to Korea, from Austria to various points across the American West—speaks to the universal appeal of his distinctive visual language.</p>
 <p>What emerges from this comprehensive exhibition history is the portrait of an artist deeply connected to his home base of Houston, yet constantly reaching beyond it; an artist engaged with the formal concerns of abstraction, yet bringing to them a distinctly Texan energy and scale; an artist who mastered multiple media—painting, drawing, printmaking—while maintaining a consistent and recognizable artistic vision.</p>
 <p>Dick Wray's legacy, as documented through his extensive exhibition history, is that of a fearless abstract expressionist who helped put Texas on the map of contemporary American art. His work continues to resonate with viewers and influence younger generations of artists, ensuring that his contribution to the visual culture of Texas and beyond will endure for generations to come.</p>
+                    </div>
                 </div>
-            </article>
         </section>
     </main>
 
