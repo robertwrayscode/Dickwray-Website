@@ -158,7 +158,8 @@ def dashboard():
     publications = read_json(os.path.join(DATA_DIR, 'publications.json'))
 
     return render_template('admin/dashboard.html',
-                           collections=collections_data,
+                           collections=COLLECTIONS,
+                           collections_data=collections_data,
                            interviews=interviews,
                            publications=publications)
 
@@ -178,19 +179,19 @@ def images_page(collection):
 @app.route('/interviews')
 def interviews_page():
     interviews = read_json(os.path.join(DATA_DIR, 'interviews.json'))
-    return render_template('admin/interviews.html', interviews=interviews)
+    return render_template('admin/interviews.html', interviews=interviews, collections=COLLECTIONS)
 
 
 @app.route('/publications')
 def publications_page():
     publications = read_json(os.path.join(DATA_DIR, 'publications.json'))
-    return render_template('admin/publications.html', publications=publications)
+    return render_template('admin/publications.html', publications=publications, collections=COLLECTIONS)
 
 
 @app.route('/settings')
 def settings_page():
     settings = read_json(os.path.join(DATA_DIR, 'settings.json'), default={})
-    return render_template('admin/settings.html', settings=settings)
+    return render_template('admin/settings.html', settings=settings, collections=COLLECTIONS)
 
 
 # ---------------------------------------------------------------------------

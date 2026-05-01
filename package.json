@@ -1,0 +1,14 @@
+{
+  "name": "dick-wray-website",
+  "version": "1.0.0",
+  "description": "Dick Wray artist website with Netlify CMS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node admin/netlify-local-server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "multer": "^1.4.3"
+  }
+}

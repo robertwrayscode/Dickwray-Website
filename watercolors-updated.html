@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watercolors | Dick Wray</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-effects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3b73dfb188.js" crossorigin="anonymous"></script>
+    <style>
+        /* Collection-specific styles */
+        .collection-header {
+            height: 50vh;
+            background-size: cover;
+            background-position: center;
+            background-image: url('Dick Wray Images/Watercolors/watercolor_0202.jpg');
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10%;
+            margin-top: 80px;
+            position: relative;
+        }
+        
+        .collection-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+        }
+        
+        .collection-title {
+            position: relative;
+            margin-bottom: 3rem;
+            z-index: 1;
+        }
+        
+        .collection-title h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .collection-title p {
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+        
+        .collection-gallery {
+            padding: 4rem 5%;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .collection-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .collection-title h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img id="logo-image" src="Dick Wray Images/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">About <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html#about">Biography</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li class="dropdown">
+                    <a href="index.html#collections">Collections <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="watercolors.html">Watercolors</a></li>
+                        <li><a href="black-and-whites.html">Black & Whites</a></li>
+                        <li><a href="early-works.html">Early Works</a></li>
+                        <li><a href="large-works.html">Large Works</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Writings <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="essays.html">Essays</a></li>
+                        <li><a href="#">Interviews</a></li>
+                        <li><a href="#">Publications</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" class="theme-toggle" title="Switch between dark and light themes" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="collection-header">
+            <div class="collection-title">
+                <h1>Watercolors</h1>
+                <p>A selection of Dick Wray's vibrant watercolor works, showcasing his mastery of the medium and distinctive abstract expressionist style.</p>
+            </div>
+        </section>
+
+        <section class="collection-gallery">
+            <a href="index.html#collections" class="back-link"><i class="fas fa-arrow-left"></i> Back to Collections</a>
+            
+            <div class="collection-gallery-grid">
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0202.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0202.jpg" alt="Watercolor 0202">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0203.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0203.jpg" alt="Watercolor 0203">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0205.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0205.jpg" alt="Watercolor 0205">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0301.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0301.jpg" alt="Watercolor 0301">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0302.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0302.jpg" alt="Watercolor 0302">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0303.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0303.jpg" alt="Watercolor 0303">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0304.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0304.jpg" alt="Watercolor 0304">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0305.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0305.jpg" alt="Watercolor 0305">
+                </div>
+                <div class="gallery-item" data-src="Dick Wray Images/Watercolors/watercolor_0306.jpg">
+                    <img src="Dick Wray Images/Watercolors/watercolor_0306.jpg" alt="Watercolor 0306">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img id="logo-image" src="Dick Wray Images/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </div>
+            <div class="footer-links">
+                <h3>Site Links</h3>
+                <ul>
+                    <li><a href="index.html#about">Biography</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="admin-link">
+                    <a href="admin/index.html" style="font-size: 0.8rem; color: #555; margin-top: 15px; display: inline-block; text-decoration: none;">Admin</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Dick Wray Estate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content">
+        <div class="lightbox-controls">
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+    // Combined JavaScript for immediate execution
+    document.addEventListener('DOMContentLoaded', () => {
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Mobile navigation
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.nav-links');
+        const navLinks = document.querySelectorAll('.nav-links li:not(.dropdown) a, .dropdown-menu li a');
+        
+        burger.addEventListener('click', () => {
+            // Toggle Nav
+            nav.classList.toggle('active');
+            
+            // Toggle Burger Animation
+            burger.classList.toggle('active');
+            
+            // Animate Links
+            const mainNavLinks = document.querySelectorAll('.nav-links > li');
+            mainNavLinks.forEach((link, index) => {
+                if (link.style.animation) {
+                    link.style.animation = '';
+                } else {
+                    link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                }
+            });
+        });
+        
+        // Close mobile menu when link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    burger.classList.remove('active');
+                }
+            });
+        });
+        
+        // Lightbox functionality
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = document.querySelector('.lightbox-content');
+        const close = document.querySelector('.close');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentImageIndex = 0;
+        
+        function openLightbox(index) {
+            lightbox.classList.add('active');
+            currentImageIndex = index;
+            const src = galleryItems[currentImageIndex].dataset.src;
+            lightboxImg.src = src;
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when lightbox is open
+        }
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+        
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+            const src = galleryItems[currentImageIndex].dataset.src;
+            lightboxImg.src = src;
+        }
+        
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+            const src = galleryItems[currentImageIndex].dataset.src;
+            lightboxImg.src = src;
+        }
+        
+        // Toggle lightbox on gallery item click
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+        
+        // Also toggle lightbox on lightbox image click (close when clicking the enlarged image)
+        lightboxImg.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event from bubbling to lightbox
+            closeLightbox();
+        });
+        
+        close.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing the lightbox when clicking nav buttons
+            showPrevImage();
+        });
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent closing the lightbox when clicking nav buttons
+            showNextImage();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                }
+            }
+        });
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const themeIcon = document.querySelector('.theme-toggle i');
+        const root = document.documentElement;
+        
+        if (themeToggle && themeIcon) {
+            console.log('Theme toggle found');
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                root.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                
+                // Update logo images for light theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'Dick Wray Images/dickwray-log_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'Dick Wray Images/Signature_black.png';
+                });
+            }
+            
+            // Make sure the click event works
+            themeToggle.addEventListener('click', function() {
+                console.log('Theme toggle clicked');
+                
+                // Toggle theme class
+                root.classList.toggle('light-theme');
+                
+                // Toggle icon and logo images
+                if (root.classList.contains('light-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                    
+                    // Update logo and signature images for light theme
+                    document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                        img.src = 'Dick Wray Images/dickwray-log_INVERTED.png';
+                    });
+                    document.querySelectorAll('.signature-image').forEach(img => {
+                        img.src = 'Dick Wray Images/Signature_black.png';
+                    });
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                    
+                    // Update logo and signature images for dark theme
+                    document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                        img.src = 'Dick Wray Images/dickwray-logo_white.png';
+                    });
+                    document.querySelectorAll('.signature-image').forEach(img => {
+                        img.src = 'Dick Wray Images/Signature_white.png';
+                    });
+                }
+            });
+        } else {
+            console.error('Theme toggle or icon not found');
+        }
+        
+        // Scroll to Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        function reveal() {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+            
+            revealElements.forEach((element) => {
+                const elementTop = element.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', reveal);
+        reveal(); // Call on load
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        
+        if (scrollToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollToTopBtn.classList.add('active');
+                } else {
+                    scrollToTopBtn.classList.remove('active');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    });
+
+    // Function for theme toggle button
+    function toggleTheme() {
+        const root = document.documentElement;
+        const themeIcon = document.querySelector('.theme-toggle i');
+        
+        // Toggle theme class
+        root.classList.toggle('light-theme');
+        
+        // Toggle icon and logo images
+        if (root.classList.contains('light-theme')) {
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'light');
+            
+            // Update logo and signature images for light theme
+            document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                img.src = 'Dick Wray Images/dickwray-log_INVERTED.png';
+            });
+            document.querySelectorAll('.signature-image').forEach(img => {
+                img.src = 'Dick Wray Images/Signature_black.png';
+            });
+        } else {
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'dark');
+            
+            // Update logo and signature images for dark theme
+            document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                img.src = 'Dick Wray Images/dickwray-logo_white.png';
+            });
+            document.querySelectorAll('.signature-image').forEach(img => {
+                img.src = 'Dick Wray Images/Signature_white.png';
+            });
+        }
+    }
+    </script>
+</body>
+</html>

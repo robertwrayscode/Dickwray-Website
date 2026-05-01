@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dick Wray | Abstract Expressionist Artist</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-effects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3b73dfb188.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <span class="loader-text"><img src="Dick%20Wray%20Images/Signature_white.png" alt="Dick Wray Signature" class="signature-image"></span>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" title="Switch between dark and light themes" onclick="toggleTheme()" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 50px !important; height: 50px !important; z-index: 9999 !important; background-color: #ff3d00 !important; cursor: pointer !important; box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important; border-radius: 50% !important;">
+        <i class="fas fa-moon" style="font-size: 1.5rem !important;"></i>
+    </button>
+    
+    <!-- Scroll To Top Button -->
+    <div class="scroll-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img id="logo-image" src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">About <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#about">Biography</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                    </ul>
+                </li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li class="dropdown">
+                    <a href="#collections">Collections <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="watercolors.html">Watercolors</a></li>
+                        <li><a href="black-and-whites.html">Black & Whites</a></li>
+                        <li><a href="early-works.html">Early Works</a></li>
+                        <li><a href="large-works.html">Large Works</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Writings <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="essays.html">Essays</a></li>
+                        <li><a href="#">Interviews</a></li>
+                        <li><a href="#">Publications</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-text">
+                <h1 class="split-text"><img src="Dick%20Wray%20Images/Signature_white.png" alt="Dick Wray Signature" class="signature-image"></h1>
+                <h2 class="split-text delay-2"><span class="word">Abstract</span> <span class="word">Expressionist</span></h2>
+                <p class="reveal fade-bottom delay-3">Exploring chaos, emotion, and the human experience through vibrant abstraction</p>
+            </div>
+            <div class="hero-image">
+                <div class="slideshow">
+                    <!-- Dynamically load slideshow images from splash collection -->
+                    <div class="slide active">
+                        <img src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-5.jpg?t=<?php echo time(); ?>" alt="Dick Wray Artwork 1">
+                    </div>
+                    <div class="slide">
+                        <img src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-6.jpg?t=<?php echo time(); ?>" alt="Dick Wray Artwork 2">
+                    </div>
+                    <div class="slide">
+                        <img src="/DickWrayWebsite/assets/images/collections/splash/gallery_image_7.jpg?t=<?php echo time(); ?>" alt="Dick Wray Artwork 3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about reveal fade-bottom">
+            <div class="about-container">
+                <h2 class="reveal fade-bottom">About the Artist</h2>
+                <div class="about-content">
+                    <div class="about-text reveal fade-left">
+                        <p>Dick Wray (1933-2011) was an influential American abstract expressionist painter whose dynamic compositions capture the energy and chaos of the modern world. His work is characterized by bold brushstrokes, vibrant colors, and complex layering techniques.</p>
+                        <p>Born in Houston, Texas, Wray studied architecture before discovering his passion for painting. His architectural background influenced his unique approach to composition and space within his artwork.</p>
+                        <p>Wray's paintings have been exhibited in prestigious galleries and museums throughout the United States and internationally. His legacy continues to inspire contemporary artists exploring the boundaries of abstract expressionism.</p>
+                    </div>
+                    <div class="about-image reveal fade-right">
+                        <img src="Dick%20Wray%20Images/Painting5_July-4-2007-769x1024.jpg" alt="Dick Wray in his studio">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery reveal fade-bottom">
+    <h2 class="reveal fade-bottom">Featured Works</h2>
+    <div class="gallery-grid" id="featured-gallery-grid">
+        <!-- STATIC GALLERY - EMERGENCY FIX -->
+        <div class="gallery-item tilt" data-src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-5.jpg?cb=17436971799113">
+  <img src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-5.jpg?cb=17436971799113" alt="Dick Wray Artwork" class="tilt-child">
+</div>
+<div class="gallery-item tilt" data-src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-6.jpg?cb=17436971794933">
+  <img src="/DickWrayWebsite/assets/images/collections/splash/gallery-image-6.jpg?cb=17436971794933" alt="Dick Wray Artwork" class="tilt-child">
+</div>
+<div class="gallery-item tilt" data-src="/DickWrayWebsite/assets/images/collections/splash/gallery_image_7.jpg?cb=17436971793111">
+  <img src="/DickWrayWebsite/assets/images/collections/splash/gallery_image_7.jpg?cb=17436971793111" alt="Dick Wray Artwork" class="tilt-child">
+</div>
+
+    </div>
+</section>
+
+        <section id="collections" class="collections reveal fade-bottom">
+            <h2 class="reveal fade-bottom">Collections</h2>
+            <div class="collection-grid" id="collection-grid">
+                <!-- Collection cards will be loaded dynamically -->
+                <div class="loading">Loading collections...</div>
+            </div>
+            
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Define our collections
+                const collections = [
+                    { name: 'Watercolors', url: 'watercolors.html', imageKey: 'watercolors-card' },
+                    { name: 'Black & Whites', url: 'black-and-whites.html', imageKey: 'black-and-whites-card' },
+                    { name: 'Early Works', url: 'early-works.html', imageKey: 'early-works-card' },
+                    { name: 'Large Works', url: 'large-works.html', imageKey: 'large-works-card' }
+                ];
+                
+                // Get the collection grid element
+                const grid = document.getElementById('collection-grid');
+                
+                // Load homepage images from the PHP API
+                fetch('/DickWrayWebsite/api/list-images.php?collection=homepage')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear loading indicator
+                        grid.innerHTML = '';
+                        
+                        if (data.error) {
+                            console.error('Error loading homepage images:', data.error);
+                            // Fallback to create the collection grid with default layout
+                            createCollectionGrid(grid, collections, {});
+                            return;
+                        }
+                        
+                        // Create a map of image keys to image paths
+                        const imageMap = {};
+                        data.images.forEach(image => {
+                            // Extract the image key from the filename (without extension)
+                            const key = image.filename.split('.')[0];
+                            imageMap[key] = image.path;
+                        });
+                        
+                        // Create the collection grid with our image map
+                        createCollectionGrid(grid, collections, imageMap);
+                    })
+                    .catch(error => {
+                        console.error('Error loading homepage images:', error);
+                        // Fallback to create the collection grid with default layout
+                        grid.innerHTML = '';
+                        createCollectionGrid(grid, collections, {});
+                    });
+                
+                // Function to create the collection grid with available images
+                function createCollectionGrid(grid, collections, imageMap) {
+                    collections.forEach(collection => {
+                        // Create the collection item
+                        const item = document.createElement('a');
+                        item.href = collection.url;
+                        item.className = 'collection-item tilt';
+                        
+                        // Create the image element
+                        const img = document.createElement('img');
+                        // Use the image from our map if available, otherwise use a fallback
+                        if (imageMap[collection.imageKey]) {
+                            img.src = imageMap[collection.imageKey];
+                        } else {
+                            // Fallback to default paths if images aren't in our API response
+                            const fallbackPaths = {
+                                'watercolors-card': '/DickWrayWebsite/assets/images/collections/homepage/watercolors-card.jpg',
+                                'black-and-whites-card': '/DickWrayWebsite/assets/images/collections/homepage/black-and-whites-card.jpg',
+                                'early-works-card': '/DickWrayWebsite/assets/images/collections/homepage/early-works-card.jpg',
+                                'large-works-card': '/DickWrayWebsite/assets/images/collections/homepage/large-works-card.jpg'
+                            };
+                            img.src = fallbackPaths[collection.imageKey];
+                        }
+                        img.alt = collection.name;
+                        img.className = 'tilt-child';
+                        
+                        // Create the overlay with title
+                        const overlay = document.createElement('div');
+                        overlay.className = 'collection-overlay';
+                        
+                        const title = document.createElement('h3');
+                        title.className = 'tilt-child';
+                        title.textContent = collection.name;
+                        
+                        overlay.appendChild(title);
+                        
+                        // Add elements to the collection item
+                        item.appendChild(img);
+                        item.appendChild(overlay);
+                        
+                        // Add the collection item to the grid
+                        grid.appendChild(item);
+                    });
+                    
+                    // Re-initialize tilt effect if necessary
+                    if (typeof initTilt === 'function') {
+                        initTilt();
+                    }
+                }
+            });
+            </script>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="contact-container">
+                <h2>Contact</h2>
+                <p>For inquiries about Dick Wray's artwork, exhibitions, or acquisitions, please fill out the form below.</p>
+                <form id="contact-form" action="https://formspree.io/f/moveneoa" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" required></textarea>
+                        <label for="message">Message</label>
+                    </div>
+                    <input type="hidden" name="_subject" value="Dick Wray Website Inquiry">
+                    <input type="hidden" name="_next" value="#">
+                    <input type="hidden" name="_captcha" value="false">
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+                <div id="form-success" class="form-success-message" style="display: none;">
+                    <div class="success-content">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Thank you for your message!</h3>
+                        <p>Your inquiry has been sent to robertbwray@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img id="logo-image" src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </div>
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#collections">Collections</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-collections">
+                <h3>Collections</h3>
+                <ul>
+                    <li><a href="watercolors.html">Watercolors</a></li>
+                    <li><a href="black-and-whites.html">Black & Whites</a></li>
+                    <li><a href="early-works.html">Early Works</a></li>
+                    <li><a href="large-works.html">Large Works</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="admin-link">
+                    <a href="admin/index.html" style="font-size: 0.8rem; color: #555; margin-top: 15px; display: inline-block; text-decoration: none;">Admin</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Dick Wray Estate. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox">
+        <span class="close">&times;</span>
+        <img class="lightbox-content">
+        <div class="lightbox-controls">
+            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Immediate theme toggle function
+        function toggleTheme() {
+            const root = document.documentElement;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            const logoImages = document.querySelectorAll('#logo-image');
+            const signatureImages = document.querySelectorAll('.signature-image');
+            
+            root.classList.toggle('light-theme');
+            
+            if (root.classList.contains('light-theme')) {
+                // Switch to light theme
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'light');
+                // Change all logo images to inverted version
+                logoImages.forEach(img => {
+                    img.src = 'Dick%20Wray%20Images/dickwray-log_INVERTED.png';
+                });
+                // Change signature images to black version
+                signatureImages.forEach(img => {
+                    img.src = 'Dick%20Wray%20Images/Signature_black.png';
+                });
+            } else {
+                // Switch to dark theme
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'dark');
+                // Change all logo images to white version
+                logoImages.forEach(img => {
+                    img.src = 'assets/images/branding/dickwray-logo_white.png';
+                });
+                // Change signature images to white version
+                signatureImages.forEach(img => {
+                    img.src = 'Dick%20Wray%20Images/Signature_white.png';
+                });
+            }
+        }
+        
+        // Check for saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.add('light-theme');
+                document.querySelector('#theme-toggle i').className = 'fas fa-sun';
+                
+                // Update logo images on initial load if light theme
+                document.querySelectorAll('#logo-image').forEach(img => {
+                    img.src = 'Dick%20Wray%20Images/dickwray-log_INVERTED.png';
+                });
+                
+                // Update signature images on initial load if light theme
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'Dick%20Wray%20Images/Signature_black.png';
+                });
+            }
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+</html>

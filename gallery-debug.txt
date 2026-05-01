@@ -1,0 +1,66 @@
+Array
+(
+    [0] => Array
+        (
+            [filename] => gallery-image-1.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-1.jpg
+            [title] => Gallery Image 1
+            [size] => 315150
+            [modified] => 1742935712
+        )
+
+    [1] => Array
+        (
+            [filename] => gallery-image-2.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-2.jpg
+            [title] => Gallery Image 2
+            [size] => 359220
+            [modified] => 1742935708
+        )
+
+    [2] => Array
+        (
+            [filename] => gallery-image-3.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-3.jpg
+            [title] => Gallery Image 3
+            [size] => 293689
+            [modified] => 1742935704
+        )
+
+    [3] => Array
+        (
+            [filename] => gallery-image-4.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-4.jpg
+            [title] => Gallery Image 4
+            [size] => 356555
+            [modified] => 1742935700
+        )
+
+    [4] => Array
+        (
+            [filename] => gallery-image-5.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-5.jpg
+            [title] => Gallery Image 5
+            [size] => 382879
+            [modified] => 1742935698
+        )
+
+    [5] => Array
+        (
+            [filename] => gallery-image-6.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/gallery-image-6.jpg
+            [title] => Gallery Image 6
+            [size] => 354279
+            [modified] => 1742935694
+        )
+
+    [6] => Array
+        (
+            [filename] => test_image_10.jpg
+            [path] => /DickWrayWebsite/assets/images/collections/splash/test_image_10.jpg
+            [title] => Test Image 10
+            [size] => 65536
+            [modified] => 1743695375
+        )
+
+)

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dick Wray | Interviews</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-effects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3b73dfb188.js" crossorigin="anonymous"></script>
+    <style>
+        /* Light theme dropdown styles */
+        .light-theme .dropdown-menu {
+            background-color: white !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .light-theme .dropdown-menu li a {
+            color: #333333 !important;
+        }
+        
+        .light-theme .dropdown-menu li a:hover {
+            background-color: #f5f5f5 !important;
+        }
+        
+        /* Footer text color in light theme */
+        .light-theme footer {
+            color: #333333;
+        }
+        
+        .light-theme footer h3,
+        .light-theme footer a, 
+        .light-theme footer p,
+        .light-theme .footer-bottom p,
+        .light-theme .social-icon {
+            color: #333333 !important;
+        }
+        
+        /* Simple header styles */
+        .simple-header {
+            text-align: center;
+            padding: 120px 20px 40px;
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .light-theme .simple-header {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        
+        .simple-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+        }
+        
+        .simple-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--secondary-color);
+            opacity: 0.8;
+        }
+        
+        /* Interviews styling */
+        .interviews-container {
+            max-width: 900px; /* Narrower container for better readability */
+            margin: 0 auto;
+            padding: 60px 0 80px;
+        }
+        
+        .interviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .interview-item {
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interview-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .light-theme .interview-item {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .interview-item h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            color: #d32f2f; /* Strong red color to stand out */
+            line-height: 1.3;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(211, 47, 47, 0.3);
+            padding-bottom: 15px;
+        }
+        
+        .light-theme .interview-item h2 {
+            color: #b71c1c; /* Darker red for light theme */
+        }
+        
+        .interview-meta {
+            margin-bottom: 25px;
+            font-size: 1em;
+            color: var(--secondary-color);
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-theme .interview-meta {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .interview-meta span {
+            margin-right: 5px;
+        }
+        
+        .interview-content {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        .interview-content p {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .light-theme .interview-content p {
+            color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .interview-actions {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .light-theme .interview-actions {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-small {
+            padding: 10px 18px;
+            font-size: 0.9em;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Media embed and audio player styling */
+        .media-embed {
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .media-embed iframe {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 50px;
+        }
+        
+        .loading {
+            text-align: center; 
+            padding: 50px; 
+            color: #999;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #e57373;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img id="logo-image" src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo">
+            </a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="#">About <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html#about">Biography</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li class="dropdown">
+                    <a href="index.html#collections">Collections <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="watercolors.html">Watercolors</a></li>
+                        <li><a href="black-and-whites.html">Black & Whites</a></li>
+                        <li><a href="early-works.html">Early Works</a></li>
+                        <li><a href="large-works.html">Large Works</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Writings <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="essays.html">Essays</a></li>
+                        <li><a href="interviews.html">Interviews</a></li>
+                        <li><a href="publications.html">Publications</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" title="Switch between dark and light themes" style="position: fixed !important; top: 25px !important; left: 30px !important; right: auto !important; width: 50px !important; height: 50px !important; z-index: 9999 !important; background-color: #ff3d00 !important; cursor: pointer !important; box-shadow: 0 4px 8px rgba(0,0,0,0.3) !important; border-radius: 50% !important;">
+        <i class="fas fa-moon" style="font-size: 1.5rem !important;"></i>
+    </button>
+    
+    <main>
+        <!-- Simple header with title -->
+        <div class="simple-header">
+            <h1>Interviews</h1>
+            <p>Conversations and interviews with Dick Wray throughout his career</p>
+        </div>
+
+        <section class="interviews-container">
+            
+            <!-- Interviews List -->
+            <div class="interviews-list reveal fade-bottom" id="interviews-container">
+                <div class="loading" id="loading-indicator">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p>Loading interviews...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/images/branding/dickwray-logo_white.png" alt="Dick Wray Logo" class="footer-logo-img">
+            </div>
+            <div class="footer-links">
+                <h3>Site Links</h3>
+                <ul>
+                    <li><a href="index.html#about">Biography</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="interviews.html">Interviews</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year">2025</span> Dick Wray Estate. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Function to load interviews dynamically
+        function loadInterviews() {
+            const container = document.getElementById('interviews-container');
+            const loader = document.getElementById('loading-indicator');
+            
+            // Make API request
+            fetch('api/get-interviews.php')
+                .then(response => response.text())
+                .then(text => {
+                    // For debugging
+                    console.log('API Response:', text);
+                    
+                    try {
+                        const data = JSON.parse(text);
+                        
+                        // Hide loader
+                        if (loader) loader.style.display = 'none';
+                        
+                        if (data.success && data.data && data.data.length > 0) {
+                            // Clear container first
+                            container.innerHTML = '';
+                            
+                            // Loop through interviews and create elements
+                            data.data.forEach(interview => {
+                                const article = document.createElement('article');
+                                article.className = 'interview-item reveal fade-bottom';
+                                
+                                // Prepare video embed if available
+                                let videoEmbed = '';
+                                if (interview.video_url) {
+                                    // Extract YouTube ID if it's a YouTube URL
+                                    let youtubeId = '';
+                                    if (interview.video_url.includes('youtube.com/watch?v=')) {
+                                        youtubeId = interview.video_url.split('v=')[1].split('&')[0];
+                                    } else if (interview.video_url.includes('youtu.be/')) {
+                                        youtubeId = interview.video_url.split('youtu.be/')[1].split('?')[0];
+                                    }
+                                    
+                                    if (youtubeId) {
+                                        videoEmbed = `
+                                            <div class="media-embed">
+                                                <iframe width="560" height="315" src="https://www.youtube.com/embed/${youtubeId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        `;
+                                    } else {
+                                        videoEmbed = `
+                                            <div class="media-embed">
+                                                <a href="${interview.video_url}" class="btn btn-small" target="_blank">Watch Video</a>
+                                            </div>
+                                        `;
+                                    }
+                                }
+                                
+                                // Prepare audio player if available
+                                let audioPlayer = '';
+                                if (interview.audio_url) {
+                                    audioPlayer = `
+                                        <div class="media-embed">
+                                            <audio controls class="audio-player">
+                                                <source src="${interview.audio_url}" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    `;
+                                }
+                                
+                                // Format date nicely
+                                const date = interview.date || 'Unknown Date';
+                                
+                                // Prepare PDF button if available
+                                let pdfButton = '';
+                                if (interview.pdf_url) {
+                                    pdfButton = `<a href="${interview.pdf_url}" class="btn btn-small" target="_blank">Read Transcript</a>`;
+                                }
+                                
+                                // Set article content
+                                article.innerHTML = `
+                                    <h2>${interview.title}</h2>
+                                    <div class="interview-meta">
+                                        <span class="interviewer">Interviewed by ${interview.interviewer || 'Unknown'}</span> |
+                                        <span class="venue">${interview.venue || 'Unknown Venue'}</span> |
+                                        <span class="date">${date}</span>
+                                    </div>
+                                    <div class="interview-content">
+                                        <!-- Handle text formatting better with paragraphs -->
+                                        ${interview.description ? 
+                                            interview.description
+                                                .replace(/\r\n\r\n/g, '</p><p>')  // Double line breaks become new paragraphs
+                                                .replace(/\r\n/g, '<br>')      // Single line breaks become <br>
+                                                .split('</p><p>')
+                                                .map(para => `<p>${para}</p>`)
+                                                .join('')
+                                            : '<p>No description available</p>'}
+                                        
+                                        ${videoEmbed}
+                                        ${audioPlayer}
+                                        
+                                        <div class="interview-actions">
+                                            ${pdfButton}
+                                            ${interview.audio_url ? `<a href="${interview.audio_url}" class="btn btn-small" download>Download Audio</a>` : ''}
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                container.appendChild(article);
+                            });
+                        } else {
+                            container.innerHTML = `
+                                <div class="error">
+                                    <p>No interviews found.</p>
+                                </div>
+                            `;
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        
+                        // Hide loader
+                        if (loader) loader.style.display = 'none';
+                        
+                        container.innerHTML = `
+                            <div class="error">
+                                <p>Error loading interviews: ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    
+                    // Hide loader
+                    if (loader) loader.style.display = 'none';
+                    
+                    container.innerHTML = `
+                        <div class="error">
+                            <p>Failed to connect to the server. Please try again later.</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const root = document.documentElement;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            root.classList.toggle('light-theme');
+            
+            if (root.classList.contains('light-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+                
+                // Update logo and signature images for light theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'assets/images/branding/dickwray-log_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'assets/images/branding/Signature_black.png';
+                });
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+                
+                // Update logo and signature images for dark theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'assets/images/branding/dickwray-logo_white.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'assets/images/branding/Signature_white.png';
+                });
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load interviews
+            loadInterviews();
+            
+            // Set up theme toggle button click event
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Set up theme
+            const savedTheme = localStorage.getItem('theme');
+            const root = document.documentElement;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            // Default to light theme if no preference is saved, or if preference is 'light'
+            if (savedTheme === null || savedTheme === 'light') {
+                root.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                
+                // Update logo images for light theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'assets/images/branding/dickwray-log_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'assets/images/branding/Signature_black.png';
+                });
+                
+                // Set localStorage to light if it wasn't already set
+                if (savedTheme === null) {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+            
+            // Reveal animations on scroll
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 150) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Call once on load
+            
+            // Update copyright year
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

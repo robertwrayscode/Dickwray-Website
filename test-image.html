@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Image Display</title>
+</head>
+<body>
+    <h1>Testing Image Display</h1>
+    <h2>Direct File Path:</h2>
+    <img src="/DickWrayWebsite/assets/images/collections/splash/test8.jpg" alt="Test8 Image" style="max-width: 500px;">
+    
+    <h2>All Splash Images:</h2>
+    <div id="all-images"></div>
+    
+    <script>
+    // Fetch all splash images and display them
+    fetch('/DickWrayWebsite/api/list-images.php?collection=splash&t=' + new Date().getTime())
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('all-images');
+            container.innerHTML = '';
+            
+            if (data.images && data.images.length > 0) {
+                data.images.forEach(image => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.style.margin = '20px 0';
+                    
+                    const title = document.createElement('h3');
+                    title.textContent = image.filename;
+                    
+                    const img = document.createElement('img');
+                    img.src = image.path + '?t=' + new Date().getTime();
+                    img.alt = image.title;
+                    img.style.maxWidth = '500px';
+                    img.style.border = '1px solid #ccc';
+                    
+                    const details = document.createElement('p');
+                    details.innerHTML = `Path: ${image.path}<br>Size: ${image.size} bytes<br>Modified: ${new Date(image.modified * 1000).toLocaleString()}`;
+                    
+                    imgContainer.appendChild(title);
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(details);
+                    container.appendChild(imgContainer);
+                });
+            } else {
+                container.textContent = 'No images found';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching images:', error);
+            document.getElementById('all-images').textContent = 'Error loading images';
+        });
+    </script>
+</body>
+</html>

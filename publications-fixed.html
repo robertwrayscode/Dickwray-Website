@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dick Wray | Publications</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/modern-effects.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3b73dfb188.js" crossorigin="anonymous"></script>
+    <style>
+        /* Light theme dropdown styles */
+        .light-theme .dropdown-menu {
+            background-color: white !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .light-theme .dropdown-menu li a {
+            color: #333333 !important;
+        }
+        
+        .light-theme .dropdown-menu li a:hover {
+            background-color: #f5f5f5 !important;
+        }
+        
+        /* Footer text color in light theme */
+        .light-theme footer {
+            color: #333333;
+        }
+        
+        .light-theme footer h3,
+        .light-theme footer a, 
+        .light-theme footer p,
+        .light-theme .footer-bottom p,
+        .light-theme .social-icon {
+            color: #333333 !important;
+        }
+        
+        /* Publications styling */
+        .publications-container {
+            padding-top: 120px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5em;
+        }
+        
+        .publications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .publication-item {
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .publication-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .light-theme .publication-item {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .publication-item h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            color: var(--primary-color);
+        }
+        
+        .publication-meta {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+        
+        .publication-content {
+            line-height: 1.7;
+        }
+        
+        .publication-content p {
+            margin-bottom: 15px;
+        }
+        
+        .publication-actions {
+            margin-top: 25px;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.85em;
+        }
+        
+        .publication-cover img {
+            max-width: 100%;
+            max-height: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .loading {
+            text-align: center; 
+            padding: 50px; 
+            color: #999;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #e57373;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+    </div>
+    
+    <div id="theme-toggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img id="logo-image" src="Dick Wray Images/dickwray-logo_white.png" alt="Dick Wray Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">About <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <li><a href="index.html#about">Biography</a></li>
+                            <li><a href="cv.html">CV</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Collections <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <li><a href="large works.html">Large Works</a></li>
+                            <li><a href="early works.html">Early Works</a></li>
+                            <li><a href="watercolors.html">Watercolors</a></li>
+                            <li><a href="black & whites.html">Black & Whites</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Media <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <li><a href="essays.html">Essays</a></li>
+                            <li><a href="interviews.html">Interviews</a></li>
+                            <li><a href="publications.html">Publications</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="publications-container">
+            <h1 class="page-title reveal fade-bottom">Publications</h1>
+            
+            <!-- Publications List -->
+            <div class="publications-list reveal fade-bottom" id="publications-container">
+                <div class="loading" id="loading-indicator">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p>Loading publications...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="Dick Wray Images/dickwray-logo_white.png" alt="Dick Wray Logo" class="footer-logo-img">
+            </div>
+            <div class="footer-links">
+                <h3>Site Links</h3>
+                <ul>
+                    <li><a href="index.html#about">Biography</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#collections">Collections</a></li>
+                    <li><a href="essays.html">Essays</a></li>
+                    <li><a href="interviews.html">Interviews</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year">2025</span> Dick Wray Estate. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Simple function to fetch and display publications
+        function loadPublications() {
+            const container = document.getElementById('publications-container');
+            const loader = document.getElementById('loading-indicator');
+            
+            // Make API request
+            fetch('api/get-publications.php')
+                .then(response => response.text())
+                .then(text => {
+                    // For debugging
+                    console.log('API Response:', text);
+                    
+                    try {
+                        const data = JSON.parse(text);
+                        
+                        // Hide loader
+                        if (loader) loader.style.display = 'none';
+                        
+                        if (data.success && data.data && data.data.length > 0) {
+                            // Clear container first
+                            container.innerHTML = '';
+                            
+                            // Loop through publications and create elements
+                            data.data.forEach(pub => {
+                                const article = document.createElement('article');
+                                article.className = 'publication-item reveal fade-bottom';
+                                
+                                // Prepare image HTML if available
+                                let imageHtml = '';
+                                if (pub.cover_url) {
+                                    imageHtml = `
+                                        <div class="publication-cover">
+                                            <img src="${pub.cover_url}" alt="${pub.title}">
+                                        </div>
+                                    `;
+                                }
+                                
+                                // Format date nicely
+                                const date = pub.date || 'Unknown Date';
+                                
+                                // Prepare PDF button if available
+                                let pdfButton = '';
+                                if (pub.pdf_url) {
+                                    pdfButton = `<a href="${pub.pdf_url}" class="btn btn-small" target="_blank">Read Full Article</a>`;
+                                }
+                                
+                                // Set article content
+                                article.innerHTML = `
+                                    ${imageHtml}
+                                    <h2>${pub.title}</h2>
+                                    <div class="publication-meta">
+                                        <span class="author">By ${pub.author}</span> |
+                                        <span class="source">${pub.publication}</span> |
+                                        <span class="date">${date}</span>
+                                    </div>
+                                    <div class="publication-content">
+                                        <p>${pub.description ? pub.description.replace(/\r\n/g, '</p><p>') : ''}</p>
+                                        <div class="publication-actions">
+                                            ${pdfButton}
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                container.appendChild(article);
+                            });
+                        } else {
+                            container.innerHTML = `
+                                <div class="error">
+                                    <p>No publications found.</p>
+                                </div>
+                            `;
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        
+                        // Hide loader
+                        if (loader) loader.style.display = 'none';
+                        
+                        container.innerHTML = `
+                            <div class="error">
+                                <p>Error loading publications: ${error.message}</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    
+                    // Hide loader
+                    if (loader) loader.style.display = 'none';
+                    
+                    container.innerHTML = `
+                        <div class="error">
+                            <p>Failed to connect to the server. Please try again later.</p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Theme toggle functionality
+        function toggleTheme() {
+            const root = document.documentElement;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            root.classList.toggle('light-theme');
+            
+            if (root.classList.contains('light-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+                
+                // Update logo and signature images for light theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'Dick Wray Images/dickwray-log_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'Dick Wray Images/Signature_black.png';
+                });
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+                
+                // Update logo and signature images for dark theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'Dick Wray Images/dickwray-logo_white.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'Dick Wray Images/Signature_white.png';
+                });
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load publications
+            loadPublications();
+            
+            // Set up theme
+            const savedTheme = localStorage.getItem('theme');
+            const root = document.documentElement;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            // Default to light theme if no preference is saved, or if preference is 'light'
+            if (savedTheme === null || savedTheme === 'light') {
+                root.classList.add('light-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                
+                // Update logo images for light theme
+                document.querySelectorAll('#logo-image, .footer-logo img').forEach(img => {
+                    img.src = 'Dick Wray Images/dickwray-log_INVERTED.png';
+                });
+                document.querySelectorAll('.signature-image').forEach(img => {
+                    img.src = 'Dick Wray Images/Signature_black.png';
+                });
+                
+                // Set localStorage to light if it wasn't already set
+                if (savedTheme === null) {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+            
+            // Set up theme toggle click handler
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Reveal animations on scroll
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                revealElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 150) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Call once on load
+            
+            // Update copyright year
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
