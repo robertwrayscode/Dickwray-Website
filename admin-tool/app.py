@@ -173,12 +173,14 @@ def dashboard():
             'thumbnail': imgs[0]['path'] if imgs else None,
         })
 
+    essays = read_json(os.path.join(DATA_DIR, 'essays.json'))
     interviews = read_json(os.path.join(DATA_DIR, 'interviews.json'))
     publications = read_json(os.path.join(DATA_DIR, 'publications.json'))
 
     return render_template('admin/dashboard.html',
                            collections=COLLECTIONS,
                            collections_data=collections_data,
+                           essays=essays,
                            interviews=interviews,
                            publications=publications)
 
@@ -193,6 +195,12 @@ def images_page(collection):
                            collection_name=COLLECTIONS[collection],
                            images=imgs,
                            collections=COLLECTIONS)
+
+
+@app.route('/essays')
+def essays_page():
+    essays = read_json(os.path.join(DATA_DIR, 'essays.json'))
+    return render_template('admin/essays.html', essays=essays, collections=COLLECTIONS)
 
 
 @app.route('/interviews')
@@ -268,6 +276,56 @@ def api_delete_image(collection, filename):
         return jsonify({'error': 'File not found'}), 404
     os.remove(filepath)
     return jsonify({'success': True, 'deleted': filename})
+
+
+# ---------------------------------------------------------------------------
+# API — Essays
+# ---------------------------------------------------------------------------
+
+def _essays_path():
+    return os.path.join(DATA_DIR, 'essays.json')
+
+
+@app.route('/api/essays', methods=['GET'])
+def api_list_essays():
+    return jsonify(read_json(_essays_path()))
+
+
+@app.route('/api/essays', methods=['POST'])
+def api_add_essay():
+    data = request.get_json(force=True)
+    essays = read_json(_essays_path())
+    entry = {
+        'id': str(uuid.uuid4())[:8],
+        'title': data.get('title', ''),
+        'author': data.get('author', ''),
+        'date': data.get('date', ''),
+        'description': data.get('description', ''),
+        'content': data.get('content', ''),
+    }
+    essays.append(entry)
+    write_json(_essays_path(), essays)
+    return jsonify(entry), 201
+
+
+@app.route('/api/essays/<entry_id>', methods=['PUT'])
+def api_update_essay(entry_id):
+    data = request.get_json(force=True)
+    essays = read_json(_essays_path())
+    for item in essays:
+        if item.get('id') == entry_id:
+            item.update({k: v for k, v in data.items() if k != 'id'})
+            write_json(_essays_path(), essays)
+            return jsonify(item)
+    return jsonify({'error': 'Not found'}), 404
+
+
+@app.route('/api/essays/<entry_id>', methods=['DELETE'])
+def api_delete_essay(entry_id):
+    essays = read_json(_essays_path())
+    essays = [e for e in essays if e.get('id') != entry_id]
+    write_json(_essays_path(), essays)
+    return jsonify({'success': True})
 
 
 # ---------------------------------------------------------------------------

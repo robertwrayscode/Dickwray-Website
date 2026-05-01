@@ -160,6 +160,7 @@ def _build_site_impl() -> bool:
         "email": "contact@dickwray.com",
     }
 
+    essays = load_json(DATA_DIR / "essays.json") or []
     interviews = load_json(DATA_DIR / "interviews.json") or []
     publications = load_json(DATA_DIR / "publications.json") or []
 
@@ -231,7 +232,7 @@ def _build_site_impl() -> bool:
 
     # --- essays.html ---
     tpl = env.get_template("essays.html")
-    html = tpl.render(**common_ctx)
+    html = tpl.render(**common_ctx, essays=essays)
     write_page(SITE_DIR / "essays.html", html)
     generated.append("essays.html")
 
