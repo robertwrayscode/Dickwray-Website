@@ -14,30 +14,39 @@
       var error = params.get('error');
 
       if (error) {
-        var msg = 'authorization:github:error:' + JSON.stringify({ error: error });
-        if (window.opener) {
-          window.opener.postMessage(msg, '*');
-          window.close();
-        } else {
-          localStorage.setItem('decap-cms-auth', JSON.stringify({ error: error }));
-          document.getElementById('msg').innerText = 'Auth error: ' + error;
-          try { window.close(); } catch(e) {}
-        }
+        document.getElementById('msg').innerText = 'Auth error: ' + error;
         return;
       }
 
       if (token) {
-        var msg = 'authorization:github:success:' + JSON.stringify({ token: token, provider: provider });
+        // Set netlify-cms-user directly so Decap auto-logins on page load.
+        // This is the key Decap CMS checks on startup.
+        localStorage.setItem('netlify-cms-user', JSON.stringify({
+          token: token,
+          backendName: 'github'
+        }));
+
+        // Also set decap-cms-auth for the polling script fallback
+        localStorage.setItem('decap-cms-auth', JSON.stringify({
+          token: token,
+          provider: provider
+        }));
+
+        // Try postMessage to opener (works when window.opener is intact)
         if (window.opener) {
-          window.opener.postMessage(msg, '*');
-          window.close();
-        } else {
-          localStorage.setItem('decap-cms-auth', JSON.stringify({ token: token, provider: provider }));
-          document.getElementById('msg').innerText = 'Authentication successful! Redirecting to admin...';
-          setTimeout(function() {
-            window.location.href = window.location.pathname.replace('auth-complete.html', '') + '#/';
-          }, 1000);
+          try {
+            var msg = 'authorization:github:success:' + JSON.stringify({ token: token, provider: provider });
+            window.opener.postMessage(msg, '*');
+            window.close();
+            return;
+          } catch(e) {}
         }
+
+        // Redirect to admin page (Decap will auto-login from netlify-cms-user)
+        document.getElementById('msg').innerText = 'Authentication successful! Redirecting...';
+        setTimeout(function() {
+          window.location.href = window.location.pathname.replace('auth-complete.html', '') + '#/';
+        }, 500);
       } else {
         document.getElementById('msg').innerText = 'No token received. Please try again.';
       }
