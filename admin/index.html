@@ -9,7 +9,10 @@
 <body>
     <script>
       // Poll localStorage for OAuth token (fallback when window.opener is null)
+      // Decap CMS requires a two-step handshake with messages from the OAuth proxy origin.
+      // GitHub COOP headers break window.opener, so we dispatch synthetic MessageEvents.
       (function() {
+        var OAUTH_ORIGIN = 'https://dickwray-oauth.robertwray.workers.dev';
         var poll = setInterval(function() {
           var auth = localStorage.getItem('decap-cms-auth');
           if (auth) {
@@ -18,11 +21,33 @@
             try {
               var data = JSON.parse(auth);
               if (data.token) {
-                var msg = 'authorization:github:success:' + JSON.stringify(data);
-                window.postMessage(msg, '*');
+                // Step 1: Fake the handshake that Decap expects from the popup
+                var handshake = new MessageEvent('message', {
+                  data: 'authorizing:github',
+                  origin: OAUTH_ORIGIN
+                });
+                window.dispatchEvent(handshake);
+                // Step 2: After a tick, send the auth success message
+                setTimeout(function() {
+                  var authMsg = new MessageEvent('message', {
+                    data: 'authorization:github:success:' + JSON.stringify(data),
+                    origin: OAUTH_ORIGIN
+                  });
+                  window.dispatchEvent(authMsg);
+                }, 100);
               } else if (data.error) {
-                var msg = 'authorization:github:error:' + JSON.stringify(data);
-                window.postMessage(msg, '*');
+                var handshake = new MessageEvent('message', {
+                  data: 'authorizing:github',
+                  origin: OAUTH_ORIGIN
+                });
+                window.dispatchEvent(handshake);
+                setTimeout(function() {
+                  var errMsg = new MessageEvent('message', {
+                    data: 'authorization:github:error:' + JSON.stringify(data),
+                    origin: OAUTH_ORIGIN
+                  });
+                  window.dispatchEvent(errMsg);
+                }, 100);
               }
             } catch(e) {}
           }
