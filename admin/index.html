@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Dick Wray — Content Manager</title>
-  </head>
-  <body>
+</head>
+<body>
+    <script>
+      // Poll localStorage for OAuth token (fallback when window.opener is null)
+      (function() {
+        var poll = setInterval(function() {
+          var auth = localStorage.getItem('decap-cms-auth');
+          if (auth) {
+            clearInterval(poll);
+            localStorage.removeItem('decap-cms-auth');
+            try {
+              var data = JSON.parse(auth);
+              if (data.token) {
+                var msg = 'authorization:github:success:' + JSON.stringify(data);
+                window.postMessage(msg, '*');
+              } else if (data.error) {
+                var msg = 'authorization:github:error:' + JSON.stringify(data);
+                window.postMessage(msg, '*');
+              }
+            } catch(e) {}
+          }
+        }, 500);
+        setTimeout(function() { clearInterval(poll); }, 120000);
+      })();
+    <\/script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+</body>
 </html>
