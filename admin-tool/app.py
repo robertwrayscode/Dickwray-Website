@@ -73,6 +73,21 @@ def read_json(filepath, default=None):
         return default
 
 
+def read_json_list(filepath):
+    """Read a JSON file that may be an array or {items: [...]}."""
+    data = read_json(filepath, default=[])
+    if isinstance(data, dict) and 'items' in data:
+        return data['items']
+    if isinstance(data, list):
+        return data
+    return []
+
+
+def write_json_list(filepath, items):
+    """Write a list back as {items: [...]} format (compatible with Decap CMS)."""
+    write_json(filepath, {'items': items})
+
+
 def write_json(filepath, data):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, 'w', encoding='utf-8') as f:
@@ -173,9 +188,9 @@ def dashboard():
             'thumbnail': imgs[0]['path'] if imgs else None,
         })
 
-    essays = read_json(os.path.join(DATA_DIR, 'essays.json'))
-    interviews = read_json(os.path.join(DATA_DIR, 'interviews.json'))
-    publications = read_json(os.path.join(DATA_DIR, 'publications.json'))
+    essays = read_json_list(os.path.join(DATA_DIR, 'essays.json'))
+    interviews = read_json_list(os.path.join(DATA_DIR, 'interviews.json'))
+    publications = read_json_list(os.path.join(DATA_DIR, 'publications.json'))
 
     return render_template('admin/dashboard.html',
                            collections=COLLECTIONS,
@@ -213,19 +228,19 @@ def cv_edit_page():
 
 @app.route('/essays')
 def essays_page():
-    essays = read_json(os.path.join(DATA_DIR, 'essays.json'))
+    essays = read_json_list(os.path.join(DATA_DIR, 'essays.json'))
     return render_template('admin/essays.html', essays=essays, collections=COLLECTIONS)
 
 
 @app.route('/interviews')
 def interviews_page():
-    interviews = read_json(os.path.join(DATA_DIR, 'interviews.json'))
+    interviews = read_json_list(os.path.join(DATA_DIR, 'interviews.json'))
     return render_template('admin/interviews.html', interviews=interviews, collections=COLLECTIONS)
 
 
 @app.route('/publications')
 def publications_page():
-    publications = read_json(os.path.join(DATA_DIR, 'publications.json'))
+    publications = read_json_list(os.path.join(DATA_DIR, 'publications.json'))
     return render_template('admin/publications.html', publications=publications, collections=COLLECTIONS)
 
 
@@ -369,13 +384,13 @@ def _essays_path():
 
 @app.route('/api/essays', methods=['GET'])
 def api_list_essays():
-    return jsonify(read_json(_essays_path()))
+    return jsonify(read_json_list(_essays_path()))
 
 
 @app.route('/api/essays', methods=['POST'])
 def api_add_essay():
     data = request.get_json(force=True)
-    essays = read_json(_essays_path())
+    essays = read_json_list(_essays_path())
     entry = {
         'id': str(uuid.uuid4())[:8],
         'title': data.get('title', ''),
@@ -385,27 +400,27 @@ def api_add_essay():
         'content': data.get('content', ''),
     }
     essays.append(entry)
-    write_json(_essays_path(), essays)
+    write_json_list(_essays_path(), essays)
     return jsonify(entry), 201
 
 
 @app.route('/api/essays/<entry_id>', methods=['PUT'])
 def api_update_essay(entry_id):
     data = request.get_json(force=True)
-    essays = read_json(_essays_path())
+    essays = read_json_list(_essays_path())
     for item in essays:
         if item.get('id') == entry_id:
             item.update({k: v for k, v in data.items() if k != 'id'})
-            write_json(_essays_path(), essays)
+            write_json_list(_essays_path(), essays)
             return jsonify(item)
     return jsonify({'error': 'Not found'}), 404
 
 
 @app.route('/api/essays/<entry_id>', methods=['DELETE'])
 def api_delete_essay(entry_id):
-    essays = read_json(_essays_path())
+    essays = read_json_list(_essays_path())
     essays = [e for e in essays if e.get('id') != entry_id]
-    write_json(_essays_path(), essays)
+    write_json_list(_essays_path(), essays)
     return jsonify({'success': True})
 
 
@@ -419,13 +434,13 @@ def _interviews_path():
 
 @app.route('/api/interviews', methods=['GET'])
 def api_list_interviews():
-    return jsonify(read_json(_interviews_path()))
+    return jsonify(read_json_list(_interviews_path()))
 
 
 @app.route('/api/interviews', methods=['POST'])
 def api_add_interview():
     data = request.get_json(force=True)
-    interviews = read_json(_interviews_path())
+    interviews = read_json_list(_interviews_path())
     entry = {
         'id': str(uuid.uuid4())[:8],
         'title': data.get('title', ''),
@@ -435,27 +450,27 @@ def api_add_interview():
         'description': data.get('description', ''),
     }
     interviews.append(entry)
-    write_json(_interviews_path(), interviews)
+    write_json_list(_interviews_path(), interviews)
     return jsonify(entry), 201
 
 
 @app.route('/api/interviews/<entry_id>', methods=['PUT'])
 def api_update_interview(entry_id):
     data = request.get_json(force=True)
-    interviews = read_json(_interviews_path())
+    interviews = read_json_list(_interviews_path())
     for item in interviews:
         if item.get('id') == entry_id:
             item.update({k: v for k, v in data.items() if k != 'id'})
-            write_json(_interviews_path(), interviews)
+            write_json_list(_interviews_path(), interviews)
             return jsonify(item)
     return jsonify({'error': 'Not found'}), 404
 
 
 @app.route('/api/interviews/<entry_id>', methods=['DELETE'])
 def api_delete_interview(entry_id):
-    interviews = read_json(_interviews_path())
+    interviews = read_json_list(_interviews_path())
     interviews = [i for i in interviews if i.get('id') != entry_id]
-    write_json(_interviews_path(), interviews)
+    write_json_list(_interviews_path(), interviews)
     return jsonify({'success': True})
 
 
@@ -469,7 +484,7 @@ def _publications_path():
 
 @app.route('/api/publications', methods=['GET'])
 def api_list_publications():
-    return jsonify(read_json(_publications_path()))
+    return jsonify(read_json_list(_publications_path()))
 
 
 @app.route('/api/publications', methods=['POST'])
@@ -482,7 +497,7 @@ def api_add_publication():
         data = request.get_json(force=True)
         cover = None
 
-    publications = read_json(_publications_path())
+    publications = read_json_list(_publications_path())
     entry = {
         'id': str(uuid.uuid4())[:8],
         'title': data.get('title', ''),
@@ -501,7 +516,7 @@ def api_add_publication():
         entry['cover_image'] = f'/site-assets/images/publications/{fname}'
 
     publications.append(entry)
-    write_json(_publications_path(), publications)
+    write_json_list(_publications_path(), publications)
     return jsonify(entry), 201
 
 
@@ -514,7 +529,7 @@ def api_update_publication(entry_id):
         data = request.get_json(force=True)
         cover = None
 
-    publications = read_json(_publications_path())
+    publications = read_json_list(_publications_path())
     for item in publications:
         if item.get('id') == entry_id:
             item.update({k: v for k, v in data.items() if k != 'id'})
@@ -524,16 +539,16 @@ def api_update_publication(entry_id):
                 fname = secure_filename(cover.filename)
                 cover.save(os.path.join(covers_dir, fname))
                 item['cover_image'] = f'/site-assets/images/publications/{fname}'
-            write_json(_publications_path(), publications)
+            write_json_list(_publications_path(), publications)
             return jsonify(item)
     return jsonify({'error': 'Not found'}), 404
 
 
 @app.route('/api/publications/<entry_id>', methods=['DELETE'])
 def api_delete_publication(entry_id):
-    publications = read_json(_publications_path())
+    publications = read_json_list(_publications_path())
     publications = [p for p in publications if p.get('id') != entry_id]
-    write_json(_publications_path(), publications)
+    write_json_list(_publications_path(), publications)
     return jsonify({'success': True})
 
 
@@ -611,27 +626,32 @@ def deploy_site():
 
         # Initialize git if needed
         if not os.path.isdir(git_dir):
-            subprocess.run(['git', 'init'], cwd=SITE_DIR,
+            subprocess.run(['git', 'init', '-b', 'main'], cwd=SITE_DIR,
                            capture_output=True, text=True)
+
+        # Ensure remote is set
+        repo_url = 'https://github.com/robertwrayscode/Dickwray-Website.git'
+        subprocess.run(['git', 'remote', 'add', 'origin', repo_url], cwd=SITE_DIR,
+                       capture_output=True, text=True)  # OK if already exists
 
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         commit_msg = f"Site update via admin tool - {timestamp}"
 
-        # Stage all changes
-        r1 = subprocess.run(['git', 'add', '-A'], cwd=SITE_DIR,
+        # Stage site files (not secrets)
+        stage_files = [
+            '.gitignore', '.nojekyll',
+            'index.html', 'cv.html', 'essays.html', 'interviews.html', 'publications.html',
+            'watercolors.html', 'black-and-whites.html', 'early-works.html', 'large-works.html',
+            'css/', 'js/main.js', 'assets/images/', '_data/', 'admin-tool/', 'admin/',
+            'push-to-github.command',
+        ]
+        r1 = subprocess.run(['git', 'add'] + stage_files, cwd=SITE_DIR,
                             capture_output=True, text=True)
 
         # Commit
         r2 = subprocess.run(['git', 'commit', '-m', commit_msg], cwd=SITE_DIR,
                             capture_output=True, text=True)
 
-        # Push
-        r3 = subprocess.run(['git', 'push'], cwd=SITE_DIR,
-                            capture_output=True, text=True, timeout=60)
-
-        output = '\n'.join(filter(None, [r1.stdout, r2.stdout, r3.stdout, r3.stderr]))
-
-        success = r3.returncode == 0
         if r2.returncode != 0 and 'nothing to commit' in (r2.stdout + r2.stderr).lower():
             return jsonify({
                 'success': True,
@@ -639,9 +659,24 @@ def deploy_site():
                 'output': r2.stdout,
             })
 
+        # Push using token from .git-token file
+        token_path = os.path.join(SITE_DIR, '.git-token')
+        if os.path.isfile(token_path):
+            with open(token_path) as f:
+                token = f.read().strip()
+            push_url = f'https://{token}@github.com/robertwrayscode/Dickwray-Website.git'
+        else:
+            push_url = 'origin'
+
+        r3 = subprocess.run(['git', 'push', '-u', '--force', push_url, 'main'], cwd=SITE_DIR,
+                            capture_output=True, text=True, timeout=60)
+
+        output = '\n'.join(filter(None, [r1.stdout, r2.stdout, r3.stdout, r3.stderr]))
+        success = r3.returncode == 0
+
         return jsonify({
             'success': success,
-            'message': 'Deployed successfully' if success else 'Deploy had issues',
+            'message': 'Deployed to GitHub!' if success else 'Deploy had issues — ' + (r3.stderr or r3.stdout or ''),
             'output': output,
         })
     except subprocess.TimeoutExpired:

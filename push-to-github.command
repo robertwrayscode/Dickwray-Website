@@ -31,12 +31,13 @@ echo "Staging files..."
 
 # Stage the clean static site files (not old PHP stuff)
 git add \
-    .gitignore \
+    .gitignore .nojekyll \
     index.html cv.html essays.html interviews.html publications.html \
     watercolors.html black-and-whites.html early-works.html large-works.html \
     css/ js/main.js \
     assets/images/ \
     _data/ \
+    admin/index.html admin/config.yml \
     admin-tool/ \
     push-to-github.command
 

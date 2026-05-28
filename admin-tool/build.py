@@ -114,6 +114,18 @@ def load_json(filepath: Path) -> any:
         return json.load(fh)
 
 
+def load_json_list(filepath: Path) -> list:
+    """Load a JSON file that may be an array or {items: [...]}. Returns a list."""
+    data = load_json(filepath)
+    if data is None:
+        return []
+    if isinstance(data, dict) and 'items' in data:
+        return data['items']
+    if isinstance(data, list):
+        return data
+    return []
+
+
 def write_page(path: Path, content: str) -> None:
     """Write *content* to *path*, creating parent dirs if needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -162,9 +174,9 @@ def _build_site_impl() -> bool:
 
     bio = load_json(DATA_DIR / "bio.json") or {}
     cv = load_json(DATA_DIR / "cv.json") or {}
-    essays = load_json(DATA_DIR / "essays.json") or []
-    interviews = load_json(DATA_DIR / "interviews.json") or []
-    publications = load_json(DATA_DIR / "publications.json") or []
+    essays = load_json_list(DATA_DIR / "essays.json")
+    interviews = load_json_list(DATA_DIR / "interviews.json")
+    publications = load_json_list(DATA_DIR / "publications.json")
     image_metadata = load_json(DATA_DIR / "image_metadata.json") or {}
 
     # ------------------------------------------------------------------

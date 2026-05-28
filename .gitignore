@@ -26,3 +26,7 @@ node_modules/
 api/
 admin/
 includes/
+
+# But DO include Decap CMS admin files
+!admin/index.html
+!admin/config.yml
