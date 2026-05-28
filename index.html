@@ -98,7 +98,7 @@
             <div class="about-container">
                 <h2 class="reveal fade-bottom">About the Artist</h2>
                 <div class="about-content">
-                    <div class="about-text reveal fade-left">
+                    <div id="bio-text" class="about-text reveal fade-left">
                         <p>Dick Wray (1933-2011) was an influential American abstract expressionist painter whose dynamic compositions capture the energy and chaos of the modern world. His work is characterized by bold brushstrokes, vibrant colors, and complex layering techniques.</p>
                         <p>Born in Houston, Texas, Wray studied architecture before discovering his passion for painting. His architectural background influenced his unique approach to composition and space within his artwork.</p>
                         <p>Wray&#39;s paintings have been exhibited in prestigious galleries and museums throughout the United States and internationally. His legacy continues to inspire contemporary artists exploring the boundaries of abstract expressionism.</p>
@@ -324,7 +324,7 @@
             revealOnScroll();
         });
 
-        // Mobile navigation is handled by js/main.js — no inline handler needed
+        // Mobile navigation is handled by js/main.js â no inline handler needed
 
         // Scroll to top functionality
         (function() {
@@ -418,5 +418,24 @@
         })();
     </script>
     <script src="js/main.js"></script>
+
+    <!-- Dynamic content loader for CMS data -->
+    <script>
+    (function() {
+      fetch("_data/bio.json")
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.bio_paragraphs && data.bio_paragraphs.length > 0) {
+            var container = document.getElementById("bio-text");
+            if (container) {
+              container.innerHTML = data.bio_paragraphs.map(function(p) {
+                return "<p>" + p + "</p>";
+              }).join("");
+            }
+          }
+        })
+        .catch(function(e) { console.log("Bio load fallback to static content"); });
+    })();
+    </script>
 </body>
 </html>
