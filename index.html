@@ -324,7 +324,7 @@
             revealOnScroll();
         });
 
-        // Mobile navigation is handled by js/main.js Ã¢ÂÂ no inline handler needed
+        // Mobile navigation is handled by js/main.js ÃÂ¢ÃÂÃÂ no inline handler needed
 
         // Scroll to top functionality
         (function() {
@@ -435,6 +435,27 @@
           }
         })
         .catch(function(e) { console.log("Bio load fallback to static content"); });
+    })();
+    </script>
+
+    <!-- Dynamic gallery loader for CMS data -->
+    <script>
+    (function() {
+      fetch("_data/gallery.json?v=" + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.featured_works && data.featured_works.length > 0) {
+            var container = document.getElementById("featured-gallery-grid");
+            if (container) {
+              container.innerHTML = data.featured_works.map(function(work) {
+                return '<div class="gallery-item tilt" data-src="' + work.image + '">' +
+                  '<img src="' + work.image + '" alt="' + (work.alt || work.title) + '" class="tilt-child">' +
+                  '</div>';
+              }).join("");
+            }
+          }
+        })
+        .catch(function(e) { console.log("Gallery load fallback to static content"); });
     })();
     </script>
 </body>
