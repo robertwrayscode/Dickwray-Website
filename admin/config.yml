@@ -5,8 +5,8 @@ backend:
   base_url: https://dickwray-oauth.robertwray.workers.dev
   auth_endpoint: /auth
 
-media_folder: assets/images/uploads
-public_folder: /assets/images/uploads
+media_folder: assets/images
+public_folder: /assets/images
 
 site_url: https://www.dickwray.com
 
@@ -24,6 +24,22 @@ collections:
             widget: "list"
             field: { label: "Paragraph", name: "paragraph", widget: "text" }
 
+  - label: "Featured Gallery"
+    name: "gallery"
+    files:
+      - label: "Featured Works"
+        name: "featured"
+        file: "_data/gallery.json"
+        format: json
+        fields:
+          - label: "Featured Works"
+            name: "featured_works"
+            widget: "list"
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Alt Text", name: "alt", widget: "string" }
+
   - label: "CV"
     name: "cv"
     files:
@@ -36,7 +52,29 @@ collections:
           - { label: "Born", name: "born", widget: "string" }
           - { label: "Died", name: "died", widget: "string" }
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Content (HTML)", name: "content", widget: "text" }
+          - label: "Education"
+            name: "education"
+            widget: "list"
+            fields:
+              - { label: "Institution", name: "institution", widget: "string" }
+              - { label: "Years", name: "years", widget: "string" }
+              - { label: "Details", name: "details", widget: "string", required: false }
+          - label: "Solo Exhibitions"
+            name: "solo_exhibitions"
+            widget: "list"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Exhibition", name: "exhibition", widget: "string" }
+          - label: "Group Exhibitions"
+            name: "group_exhibitions"
+            widget: "list"
+            fields:
+              - { label: "Year", name: "year", widget: "string" }
+              - { label: "Exhibition", name: "exhibition", widget: "string" }
+          - label: "Collections"
+            name: "collections"
+            widget: "list"
+            field: { label: "Collection", name: "collection", widget: "string" }
 
   - label: "Essays"
     name: "essays"
