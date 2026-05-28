@@ -324,7 +324,7 @@
             revealOnScroll();
         });
 
-        // Mobile navigation is handled by js/main.js â no inline handler needed
+        // Mobile navigation is handled by js/main.js Ã¢ÂÂ no inline handler needed
 
         // Scroll to top functionality
         (function() {
@@ -422,7 +422,7 @@
     <!-- Dynamic content loader for CMS data -->
     <script>
     (function() {
-      fetch("_data/bio.json")
+      fetch("_data/bio.json?v=" + Date.now())
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data.bio_paragraphs && data.bio_paragraphs.length > 0) {
