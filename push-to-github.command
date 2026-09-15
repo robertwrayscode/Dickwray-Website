@@ -37,7 +37,7 @@ git add \
     css/ js/main.js \
     assets/images/ \
     _data/ \
-    admin/index.html admin/config.yml \
+    admin/index.html admin/config.yml admin/auth-complete.html \
     admin-tool/ \
     push-to-github.command
 

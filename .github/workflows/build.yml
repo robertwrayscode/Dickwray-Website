@@ -1,0 +1,64 @@
+name: Rebuild site
+
+# Runs automatically whenever content or images change on GitHub
+# (for example after saving in the web editor at /admin/).
+# It regenerates the HTML pages and commits them, then GitHub Pages
+# publishes the result.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "_data/**"
+      - "assets/images/**"
+      - "admin-tool/build.py"
+      - "admin-tool/templates/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: rebuild-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Jinja2
+        run: pip install "Jinja2>=3.0"
+
+      - name: Generate HTML pages
+        run: python admin-tool/build.py
+
+      - name: Commit generated pages
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html cv.html essays.html interviews.html publications.html \
+                  watercolors.html black-and-whites.html early-works.html large-works.html
+          if git diff --cached --quiet; then
+            echo "No page changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Rebuild site pages [skip ci]"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ask GitHub Pages to publish
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

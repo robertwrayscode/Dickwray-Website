@@ -118,6 +118,65 @@ def _human_size(nbytes):
     return f"{nbytes:.1f} TB"
 
 
+# ---------------------------------------------------------------------------
+# Gallery data files (_data/galleries/<slug>.json)
+# Shared with the web editor (Decap CMS) and used by build.py for ordering
+# and captions. Kept in sync here whenever images are added/removed/edited.
+# ---------------------------------------------------------------------------
+
+def _gallery_path(slug):
+    return os.path.join(DATA_DIR, 'galleries', f'{slug}.json')
+
+
+def _gallery_public_path(slug, fname):
+    return f'/assets/images/collections/{slug}/{fname}'
+
+
+def read_gallery(slug):
+    data = read_json(_gallery_path(slug), default=None)
+    if isinstance(data, dict) and isinstance(data.get('images'), list):
+        return data['images']
+    return None
+
+
+def write_gallery(slug, images):
+    os.makedirs(os.path.dirname(_gallery_path(slug)), exist_ok=True)
+    write_json(_gallery_path(slug), {'images': images})
+
+
+def gallery_add(slug, fname):
+    images = read_gallery(slug)
+    if images is None:
+        return  # no gallery file yet -> build.py falls back to folder scan
+    public = _gallery_public_path(slug, fname)
+    if not any(i.get('image') == public for i in images):
+        images.append({'image': public, 'title': '', 'year': '',
+                       'medium': '', 'dimensions': '', 'notes': ''})
+        write_gallery(slug, images)
+
+
+def gallery_remove(slug, fname):
+    images = read_gallery(slug)
+    if images is None:
+        return
+    public = _gallery_public_path(slug, fname)
+    kept = [i for i in images if i.get('image') != public]
+    if len(kept) != len(images):
+        write_gallery(slug, kept)
+
+
+def gallery_set_meta(slug, fname, meta):
+    images = read_gallery(slug)
+    if images is None:
+        return
+    public = _gallery_public_path(slug, fname)
+    for i in images:
+        if i.get('image') == public:
+            i.update(meta)
+            write_gallery(slug, images)
+            return
+
+
 def collection_images(slug):
     """Return list of image dicts for a collection."""
     folder = os.path.join(IMAGES_DIR, slug)
@@ -286,6 +345,7 @@ def api_upload_images(collection):
                 dest = os.path.join(folder, fname)
                 counter += 1
             f.save(dest)
+            gallery_add(collection, fname)
             info = get_image_info(dest)
             uploaded.append({
                 'filename': fname,
@@ -304,6 +364,7 @@ def api_delete_image(collection, filename):
     if not os.path.isfile(filepath):
         return jsonify({'error': 'File not found'}), 404
     os.remove(filepath)
+    gallery_remove(collection, secure_filename(filename))
     return jsonify({'success': True, 'deleted': filename})
 
 
@@ -335,6 +396,7 @@ def api_save_image_metadata(collection, filename):
         'notes': data.get('notes', ''),
     }
     write_json(_metadata_path(), metadata)
+    gallery_set_meta(collection, filename, metadata[key])
     return jsonify(metadata[key])
 
 

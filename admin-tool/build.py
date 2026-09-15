@@ -106,6 +106,38 @@ def scan_images(directory: Path) -> list[str]:
     return images
 
 
+def load_gallery(slug: str) -> list[dict] | None:
+    """Load _data/galleries/<slug>.json (written by the web editor / admin tool).
+
+    Returns a list of image dicts in display order, or None if the file
+    doesn't exist (in which case the caller falls back to scanning the folder).
+    Entries whose image file is missing on disk are skipped.
+    """
+    data = load_json(DATA_DIR / "galleries" / f"{slug}.json")
+    if not isinstance(data, dict) or "images" not in data:
+        return None
+    images = []
+    for entry in data.get("images") or []:
+        if not isinstance(entry, dict):
+            continue
+        img = (entry.get("image") or "").strip().lstrip("/")
+        if not img:
+            continue
+        if not (SITE_DIR / img).is_file():
+            print(f"  (skipping missing image {img})")
+            continue
+        images.append({
+            "path": img,
+            "filename": Path(img).name,
+            "title": entry.get("title", "") or "",
+            "year": entry.get("year", "") or "",
+            "medium": entry.get("medium", "") or "",
+            "dimensions": entry.get("dimensions", "") or "",
+            "notes": entry.get("notes", "") or "",
+        })
+    return images
+
+
 def load_json(filepath: Path) -> any:
     """Load and return JSON data from *filepath*, or None if missing."""
     if not filepath.is_file():
@@ -182,7 +214,11 @@ def _build_site_impl() -> bool:
     # ------------------------------------------------------------------
     # 3. Scan images
     # ------------------------------------------------------------------
-    splash_images = scan_images(COLLECTIONS_IMG_DIR / "splash")
+    splash_gallery = load_gallery("splash")
+    if splash_gallery is not None:
+        splash_images = [img["path"] for img in splash_gallery]
+    else:
+        splash_images = scan_images(COLLECTIONS_IMG_DIR / "splash")
     homepage_images = scan_images(COLLECTIONS_IMG_DIR / "homepage")
 
     # Build a lookup for homepage card images: slug -> relative path
@@ -201,14 +237,20 @@ def _build_site_impl() -> bool:
     # ------------------------------------------------------------------
     collections_data = []
     for col in COLLECTIONS:
-        col_images = scan_images(COLLECTIONS_IMG_DIR / col["slug"])
         card_image = homepage_card_lookup.get(
             col["slug"],
             f"assets/images/collections/homepage/{HOMEPAGE_CARD_MAP.get(col['slug'], col['slug'] + '-card')}.jpg",
         )
-        # Build image objects with metadata
-        images_with_meta = []
-        for img_path in col_images:
+        # Prefer the gallery data file (editable on the web); fall back to
+        # scanning the folder + image_metadata.json for older setups.
+        gallery = load_gallery(col["slug"])
+        if gallery is not None:
+            col_images = [img["path"] for img in gallery]
+            images_with_meta = gallery
+        else:
+            col_images = scan_images(COLLECTIONS_IMG_DIR / col["slug"])
+            images_with_meta = []
+        for img_path in (col_images if gallery is None else []):
             fname = Path(img_path).name
             meta_key = f"{col['slug']}/{fname}"
             meta = image_metadata.get(meta_key, {})
