@@ -24,9 +24,10 @@ node_modules/
 # Old PHP files (kept locally for reference but not deployed)
 *.php
 api/
-admin/
+admin/*
 includes/
 
 # But DO include Decap CMS admin files
 !admin/index.html
 !admin/config.yml
+!admin/auth-complete.html

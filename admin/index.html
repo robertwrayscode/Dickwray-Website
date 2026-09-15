@@ -1,12 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Dick Wray — Content Manager</title>
-  </head>
-  <body>
+</head>
+<body>
+    <script>
+      // Fix for GitHub COOP headers breaking window.opener in OAuth popups.
+      // Decap CMS opens a popup for OAuth. GitHub sets Cross-Origin-Opener-Policy: same-origin,
+      // which severs the window.opener reference. Decap's auth callbacks then throw errors when
+      // they try to call .postMessage() or .close() on the broken window reference.
+      // This safe wrapper prevents those errors from breaking the auth flow.
+      (function() {
+        var origOpen = window.open;
+        window.open = function() {
+          var realWindow;
+          try { realWindow = origOpen.apply(window, arguments); } catch(e) { realWindow = null; }
+          if (!realWindow) {
+            return { closed: true, close: function(){}, focus: function(){}, postMessage: function(){} };
+          }
+          return {
+            get closed() { try { return realWindow.closed; } catch(e) { return true; } },
+            close: function() { try { realWindow.close(); } catch(e) {} },
+            focus: function() { try { realWindow.focus(); } catch(e) {} },
+            postMessage: function(msg, origin) { try { realWindow.postMessage(msg, origin); } catch(e) {} }
+          };
+        };
+      })();
+
+      // Poll localStorage for OAuth token and relay to Decap CMS via synthetic MessageEvents.
+      (function() {
+        var OAUTH_ORIGIN = 'https://dickwray-oauth.robertwray.workers.dev';
+        var poll = setInterval(function() {
+          var auth = localStorage.getItem('decap-cms-auth');
+          if (auth) {
+            clearInterval(poll);
+            localStorage.removeItem('decap-cms-auth');
+            try {
+              var data = JSON.parse(auth);
+              if (data.token) {
+                window.dispatchEvent(new MessageEvent('message', {
+                  data: 'authorizing:github',
+                  origin: OAUTH_ORIGIN
+                }));
+                setTimeout(function() {
+                  window.dispatchEvent(new MessageEvent('message', {
+                    data: 'authorization:github:success:' + JSON.stringify(data),
+                    origin: OAUTH_ORIGIN
+                  }));
+                }, 100);
+              }
+            } catch(e) {}
+          }
+        }, 500);
+        setTimeout(function() { clearInterval(poll); }, 120000);
+      })();
+    </script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </body>
+</body>
 </html>

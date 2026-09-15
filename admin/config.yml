@@ -5,8 +5,8 @@ backend:
   base_url: https://dickwray-oauth.robertwray.workers.dev
   auth_endpoint: /auth
 
-media_folder: assets/images/uploads
-public_folder: /assets/images/uploads
+media_folder: assets/images
+public_folder: /assets/images
 
 site_url: https://www.dickwray.com
 
@@ -155,7 +155,7 @@ collections:
         media_folder: "/assets/images/collections/large-works"
         public_folder: "/assets/images/collections/large-works"
         fields: [ *gallery_images ]
-      - label: "Homepage Slideshow (Splash)"
+      - label: "Homepage Images (slideshow + featured grid)"
         name: "splash"
         file: "_data/galleries/splash.json"
         format: json
