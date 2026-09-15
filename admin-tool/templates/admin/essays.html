@@ -1,0 +1,156 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Essays{% endblock %}
+{% block page_title %}Essays{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h3 class="section-title"><i class="fas fa-pen-fancy"></i> Essays</h3>
+        <button class="btn btn-accent" onclick="openModal()">
+            <i class="fas fa-plus"></i> Add Essay
+        </button>
+    </div>
+
+    <div class="list-container" id="essayList">
+        {% for item in essays %}
+        <div class="list-item" data-id="{{ item.id }}">
+            <div class="list-item-body">
+                <h4 class="list-item-title">{{ item.title }}</h4>
+                <div class="list-item-meta">
+                    {% if item.author %}<span><i class="fas fa-user"></i> {{ item.author }}</span>{% endif %}
+                    {% if item.date %}<span><i class="fas fa-calendar"></i> {{ item.date }}</span>{% endif %}
+                </div>
+                {% if item.description %}
+                <p class="list-item-desc">{{ item.description[:200] }}{{ '...' if item.description|length > 200 }}</p>
+                {% endif %}
+            </div>
+            <div class="list-item-actions">
+                <button class="btn btn-sm btn-outline" onclick='editItem({{ item|tojson }})'>
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" onclick="deleteItem('{{ item.id }}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not essays %}
+    <div class="empty-state" id="emptyState">
+        <i class="fas fa-pen-fancy"></i>
+        <p>No essays yet. Add one to get started.</p>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 id="modalTitle">Add Essay</h3>
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="itemForm" onsubmit="saveItem(event)">
+            <input type="hidden" id="itemId">
+            <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="fTitle" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" id="fAuthor" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="text" id="fDate" class="form-control" placeholder="e.g. 2024">
+            </div>
+            <div class="form-group">
+                <label>Description (shown in listing)</label>
+                <textarea id="fDescription" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Content (HTML — use &lt;h3&gt; for section headings, &lt;p&gt; for paragraphs)</label>
+                <textarea id="fContent" class="form-control" rows="15" style="font-family: monospace; font-size: 0.85rem;"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-accent">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const API = '/api/essays';
+const listEl = document.getElementById('essayList');
+
+function openModal(data) {
+    document.getElementById('modalTitle').textContent = data ? 'Edit Essay' : 'Add Essay';
+    document.getElementById('itemId').value = data ? data.id : '';
+    document.getElementById('fTitle').value = data ? data.title : '';
+    document.getElementById('fAuthor').value = data ? data.author : '';
+    document.getElementById('fDate').value = data ? data.date : '';
+    document.getElementById('fDescription').value = data ? data.description : '';
+    document.getElementById('fContent').value = data ? data.content : '';
+    document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+}
+
+function editItem(data) {
+    openModal(data);
+}
+
+async function saveItem(e) {
+    e.preventDefault();
+    const id = document.getElementById('itemId').value;
+    const payload = {
+        title: document.getElementById('fTitle').value,
+        author: document.getElementById('fAuthor').value,
+        date: document.getElementById('fDate').value,
+        description: document.getElementById('fDescription').value,
+        content: document.getElementById('fContent').value,
+    };
+
+    try {
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? `${API}/${id}` : API;
+        const res = await fetch(url, {
+            method, headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+            showToast(id ? 'Essay updated' : 'Essay added');
+            closeModal();
+            location.reload();
+        } else {
+            showToast('Save failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+    }
+}
+
+async function deleteItem(id) {
+    if (!confirm('Delete this essay? This cannot be undone.')) return;
+    try {
+        const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            const el = listEl.querySelector(`[data-id="${id}"]`);
+            if (el) el.remove();
+            showToast('Essay deleted');
+        } else {
+            showToast('Delete failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+    }
+}
+</script>
+{% endblock %}

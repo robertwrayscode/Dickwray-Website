@@ -1,0 +1,72 @@
+{% extends "admin/base.html" %}
+
+{% block title %}CV Editor{% endblock %}
+{% block page_title %}Curriculum Vitae{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h3 class="section-title"><i class="fas fa-file-alt"></i> CV Editor</h3>
+    </div>
+    <p style="opacity: 0.7; margin-bottom: 20px;">Edit the CV/resume page. The content field accepts HTML — use &lt;h3&gt; for section headings, &lt;ul class="cv-list"&gt; for lists, and &lt;strong&gt; for dates.</p>
+
+    <form id="cvForm" onsubmit="saveCV(event)">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Name</label>
+            <input type="text" id="cvName" class="form-control" value="{{ cv.name or '' }}">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Born</label>
+            <input type="text" id="cvBorn" class="form-control" value="{{ cv.born or '' }}" placeholder="e.g. 1933, Houston, Texas">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Died</label>
+            <input type="text" id="cvDied" class="form-control" value="{{ cv.died or '' }}" placeholder="e.g. 2011, Houston, Texas">
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Title</label>
+            <input type="text" id="cvTitle" class="form-control" value="{{ cv.title or '' }}" placeholder="e.g. Abstract Expressionist Painter">
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label>Content (HTML)</label>
+            <textarea id="cvContent" class="form-control" rows="30" style="font-family: monospace; font-size: 0.85rem;">{{ cv.content or '' }}</textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button type="submit" class="btn btn-accent">
+                <i class="fas fa-save"></i> Save CV
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function saveCV(e) {
+    e.preventDefault();
+    const payload = {
+        name: document.getElementById('cvName').value,
+        born: document.getElementById('cvBorn').value,
+        died: document.getElementById('cvDied').value,
+        title: document.getElementById('cvTitle').value,
+        content: document.getElementById('cvContent').value,
+    };
+
+    try {
+        const res = await fetch('/api/cv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+            showToast('CV saved!');
+        } else {
+            showToast('Save failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+    }
+}
+</script>
+{% endblock %}

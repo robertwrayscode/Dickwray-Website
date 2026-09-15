@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     el.classList.add('active');
                 });
             }, 300);
-        }, 1500);
+        }, 400);
     }
 
     /* ---- Copyright Year ---- */

@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Settings{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="card settings-card">
+        <div class="card-body">
+            <h3 class="section-title"><i class="fas fa-cog"></i> Site Settings</h3>
+            <form id="settingsForm" onsubmit="saveSettings(event)">
+                <div class="form-group">
+                    <label for="sTitle">Site Title</label>
+                    <input type="text" id="sTitle" class="form-control"
+                           value="{{ settings.get('site_title', '') }}">
+                </div>
+                <div class="form-group">
+                    <label for="sDesc">Site Description</label>
+                    <textarea id="sDesc" class="form-control" rows="3">{{ settings.get('site_description', '') }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sEmail">Contact Email</label>
+                    <input type="email" id="sEmail" class="form-control"
+                           value="{{ settings.get('email', '') }}">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-accent btn-lg">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function saveSettings(e) {
+    e.preventDefault();
+    const payload = {
+        site_title: document.getElementById('sTitle').value,
+        site_description: document.getElementById('sDesc').value,
+        email: document.getElementById('sEmail').value,
+    };
+    try {
+        const res = await fetch('/api/settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+            showToast('Settings saved');
+        } else {
+            showToast('Save failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+    }
+}
+</script>
+{% endblock %}

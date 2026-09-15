@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="welcome-banner">
+    <h2>Welcome, Robert</h2>
+    <p>Manage the Dick Wray art portfolio from here.</p>
+</div>
+
+<!-- Collections Grid -->
+<section class="section">
+    <h3 class="section-title"><i class="fas fa-images"></i> Collections</h3>
+    <div class="card-grid">
+        {% for col in collections_data %}
+        <div class="card collection-card">
+            <div class="card-thumb">
+                {% if col.thumbnail %}
+                <img src="{{ col.thumbnail }}" alt="{{ col.name }}">
+                {% else %}
+                <div class="card-thumb-empty"><i class="fas fa-image"></i></div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h4>{{ col.name }}</h4>
+                <span class="badge">{{ col.count }} image{{ 's' if col.count != 1 }}</span>
+            </div>
+            <div class="card-actions">
+                <a href="/images/{{ col.slug }}" class="btn btn-sm btn-accent">
+                    <i class="fas fa-folder-open"></i> Manage
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Content Management -->
+<section class="section">
+    <h3 class="section-title"><i class="fas fa-pen-fancy"></i> Content</h3>
+    <div class="card-grid card-grid-3">
+        <div class="card">
+            <div class="card-body">
+                <h4><i class="fas fa-pen-fancy"></i> Essays</h4>
+                <span class="badge">{{ essays|length }} essay{{ 's' if essays|length != 1 }}</span>
+            </div>
+            <div class="card-actions">
+                <a href="/essays" class="btn btn-sm btn-accent">
+                    <i class="fas fa-edit"></i> Manage
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4><i class="fas fa-microphone-alt"></i> Interviews</h4>
+                <span class="badge">{{ interviews|length }} interview{{ 's' if interviews|length != 1 }}</span>
+            </div>
+            <div class="card-actions">
+                <a href="/interviews" class="btn btn-sm btn-accent">
+                    <i class="fas fa-edit"></i> Manage
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4><i class="fas fa-book"></i> Publications</h4>
+                <span class="badge">{{ publications|length }} publication{{ 's' if publications|length != 1 }}</span>
+            </div>
+            <div class="card-actions">
+                <a href="/publications" class="btn btn-sm btn-accent">
+                    <i class="fas fa-edit"></i> Manage
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Site Actions -->
+<section class="section">
+    <h3 class="section-title"><i class="fas fa-rocket"></i> Site Actions</h3>
+    <div class="action-bar">
+        <button class="btn btn-lg btn-outline" onclick="buildSite()">
+            <i class="fas fa-hammer"></i> Build Site
+        </button>
+        <button class="btn btn-lg btn-accent" onclick="deploySite()">
+            <i class="fas fa-cloud-upload-alt"></i> Deploy to GitHub
+        </button>
+        <a href="/preview" target="_blank" class="btn btn-lg btn-outline">
+            <i class="fas fa-eye"></i> Preview Site
+        </a>
+    </div>
+</section>
+{% endblock %}

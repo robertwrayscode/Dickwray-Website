@@ -32,3 +32,7 @@ includes/
 !admin/config.yml
 !admin/auth-complete.html
 admin-tool/logs/
+
+# Local archive of old/unused files (never published)
+_archive/
+DickWray Admin.app/

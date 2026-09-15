@@ -1,0 +1,82 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Biography{% endblock %}
+{% block page_title %}Biography (About Section){% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h3 class="section-title"><i class="fas fa-user"></i> About the Artist</h3>
+    </div>
+    <p style="opacity: 0.7; margin-bottom: 20px;">Edit the biography paragraphs shown in the "About the Artist" section on the homepage.</p>
+
+    <form id="bioForm" onsubmit="saveBio(event)">
+        <div id="paragraphs">
+            {% for p in bio.bio_paragraphs %}
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Paragraph {{ loop.index }}</label>
+                <textarea class="form-control bio-para" rows="4" style="width: 100%;">{{ p }}</textarea>
+                <button type="button" class="btn btn-sm btn-danger" style="margin-top: 5px;" onclick="this.parentElement.remove()">
+                    <i class="fas fa-trash"></i> Remove
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <button type="button" class="btn btn-outline" onclick="addParagraph()">
+                <i class="fas fa-plus"></i> Add Paragraph
+            </button>
+        </div>
+
+        <div class="modal-actions">
+            <button type="submit" class="btn btn-accent">
+                <i class="fas fa-save"></i> Save Biography
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function addParagraph() {
+    const container = document.getElementById('paragraphs');
+    const count = container.querySelectorAll('.form-group').length + 1;
+    const div = document.createElement('div');
+    div.className = 'form-group';
+    div.style.marginBottom = '20px';
+    div.innerHTML = `
+        <label>Paragraph ${count}</label>
+        <textarea class="form-control bio-para" rows="4" style="width: 100%;"></textarea>
+        <button type="button" class="btn btn-sm btn-danger" style="margin-top: 5px;" onclick="this.parentElement.remove()">
+            <i class="fas fa-trash"></i> Remove
+        </button>
+    `;
+    container.appendChild(div);
+}
+
+async function saveBio(e) {
+    e.preventDefault();
+    const paragraphs = [];
+    document.querySelectorAll('.bio-para').forEach(function(ta) {
+        if (ta.value.trim()) paragraphs.push(ta.value.trim());
+    });
+
+    try {
+        const res = await fetch('/api/bio', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bio_paragraphs: paragraphs }),
+        });
+        if (res.ok) {
+            showToast('Biography saved!');
+        } else {
+            showToast('Save failed', 'error');
+        }
+    } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+    }
+}
+</script>
+{% endblock %}

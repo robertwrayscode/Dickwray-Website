@@ -1,0 +1,319 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ collection_name }}{% endblock %}
+{% block page_title %}{{ collection_name }}{% endblock %}
+
+{% block content %}
+<!-- Upload Area -->
+<section class="section">
+    <div class="upload-zone" id="dropZone">
+        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+        <p>Drag &amp; drop images here</p>
+        <p class="upload-hint">or</p>
+        <label class="btn btn-accent">
+            <i class="fas fa-folder-open"></i> Choose Files
+            <input type="file" id="fileInput" multiple accept="image/*" hidden>
+        </label>
+    </div>
+    <div class="upload-progress" id="uploadProgress" style="display:none;">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span id="progressText">Uploading...</span>
+    </div>
+</section>
+
+<!-- Image Grid -->
+<section class="section">
+    <h3 class="section-title">
+        <i class="fas fa-images"></i>
+        <span id="imageCount">{{ images|length }}</span> Images
+    </h3>
+    <div class="image-grid" id="imageGrid">
+        {% for img in images %}
+        {% set meta_key = collection + '/' + img.filename %}
+        {% set meta = metadata.get(meta_key, {}) %}
+        <div class="image-card" data-filename="{{ img.filename }}">
+            <div class="image-thumb">
+                <img src="{{ img.path }}" alt="{{ meta.get('title', img.filename) }}" loading="lazy">
+            </div>
+            <div class="image-info">
+                <span class="image-name" title="{{ img.filename }}">{{ meta.get('title') or img.filename }}</span>
+                <span class="image-meta">
+                    {% if meta.get('year') %}{{ meta.year }} &middot; {% endif %}
+                    {{ img.size_human }}{% if img.width %} &middot; {{ img.width }}&times;{{ img.height }}{% endif %}
+                </span>
+            </div>
+            <div class="image-actions" style="display:flex; gap:4px;">
+                <button class="btn btn-sm btn-outline" onclick="editMetadata('{{ img.filename }}')" title="Edit Info">
+                    <i class="fas fa-pen"></i>
+                </button>
+                <button class="btn btn-sm btn-danger image-delete" onclick="deleteImage('{{ img.filename }}')" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if not images %}
+    <div class="empty-state" id="emptyState">
+        <i class="fas fa-image"></i>
+        <p>No images in this collection yet.</p>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Metadata Modal -->
+<div id="metadataModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:1000; display:none; align-items:center; justify-content:center;">
+    <div style="background:#1e1e2e; border-radius:12px; padding:30px; width:95%; max-width:520px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+        <button onclick="closeMetadataModal()" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#aaa; font-size:1.4rem; cursor:pointer;">&times;</button>
+        <h3 style="margin:0 0 6px; color:#fff; font-family:'Montserrat',sans-serif;">
+            <i class="fas fa-pen" style="color:#ff3d00; margin-right:8px;"></i>Edit Image Info
+        </h3>
+        <p id="metaFilename" style="color:#888; font-size:0.85rem; margin:0 0 20px;"></p>
+
+        <div style="display:flex; flex-direction:column; gap:14px;">
+            <div>
+                <label style="display:block; color:#ccc; font-size:0.8rem; margin-bottom:4px; font-weight:500;">Title</label>
+                <input type="text" id="metaTitle" placeholder="e.g. Untitled #12" style="width:100%; padding:10px 12px; background:#2a2a3a; border:1px solid #3a3a4a; border-radius:6px; color:#fff; font-size:0.95rem; box-sizing:border-box;">
+            </div>
+            <div style="display:flex; gap:12px;">
+                <div style="flex:1;">
+                    <label style="display:block; color:#ccc; font-size:0.8rem; margin-bottom:4px; font-weight:500;">Year</label>
+                    <input type="text" id="metaYear" placeholder="e.g. 1978" style="width:100%; padding:10px 12px; background:#2a2a3a; border:1px solid #3a3a4a; border-radius:6px; color:#fff; font-size:0.95rem; box-sizing:border-box;">
+                </div>
+                <div style="flex:2;">
+                    <label style="display:block; color:#ccc; font-size:0.8rem; margin-bottom:4px; font-weight:500;">Medium</label>
+                    <input type="text" id="metaMedium" placeholder="e.g. Oil on canvas" style="width:100%; padding:10px 12px; background:#2a2a3a; border:1px solid #3a3a4a; border-radius:6px; color:#fff; font-size:0.95rem; box-sizing:border-box;">
+                </div>
+            </div>
+            <div>
+                <label style="display:block; color:#ccc; font-size:0.8rem; margin-bottom:4px; font-weight:500;">Dimensions</label>
+                <input type="text" id="metaDimensions" placeholder='e.g. 48" x 36"' style="width:100%; padding:10px 12px; background:#2a2a3a; border:1px solid #3a3a4a; border-radius:6px; color:#fff; font-size:0.95rem; box-sizing:border-box;">
+            </div>
+            <div>
+                <label style="display:block; color:#ccc; font-size:0.8rem; margin-bottom:4px; font-weight:500;">Notes</label>
+                <textarea id="metaNotes" rows="3" placeholder="Additional notes about this work..." style="width:100%; padding:10px 12px; background:#2a2a3a; border:1px solid #3a3a4a; border-radius:6px; color:#fff; font-size:0.95rem; resize:vertical; box-sizing:border-box;"></textarea>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button onclick="closeMetadataModal()" class="btn btn-sm btn-outline">Cancel</button>
+            <button onclick="saveMetadata()" class="btn btn-sm btn-accent" id="btnSaveMeta">
+                <i class="fas fa-save"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const COLLECTION = '{{ collection }}';
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const imageGrid = document.getElementById('imageGrid');
+
+// Preload metadata from server
+let allMetadata = {{ metadata | tojson }};
+
+// ---- Drag & Drop ----
+['dragenter', 'dragover'].forEach(evt => {
+    dropZone.addEventListener(evt, e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+});
+['dragleave', 'drop'].forEach(evt => {
+    dropZone.addEventListener(evt, e => { e.preventDefault(); dropZone.classList.remove('drag-over'); });
+});
+dropZone.addEventListener('drop', e => {
+    const files = e.dataTransfer.files;
+    if (files.length) uploadFiles(files);
+});
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) uploadFiles(fileInput.files);
+});
+
+// ---- Upload ----
+async function uploadFiles(files) {
+    const progress = document.getElementById('uploadProgress');
+    const fill = document.getElementById('progressFill');
+    const text = document.getElementById('progressText');
+    progress.style.display = 'block';
+    fill.style.width = '0%';
+    text.textContent = `Uploading ${files.length} file(s)...`;
+
+    const formData = new FormData();
+    for (const f of files) formData.append('images', f);
+
+    try {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `/api/images/${COLLECTION}/upload`);
+
+        xhr.upload.onprogress = e => {
+            if (e.lengthComputable) {
+                const pct = Math.round((e.loaded / e.total) * 100);
+                fill.style.width = pct + '%';
+                text.textContent = `Uploading... ${pct}%`;
+            }
+        };
+
+        xhr.onload = () => {
+            progress.style.display = 'none';
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                showToast(`Uploaded ${data.count} image(s)`);
+                data.uploaded.forEach(addImageCard);
+                updateCount();
+                const empty = document.getElementById('emptyState');
+                if (empty) empty.style.display = 'none';
+            } else {
+                showToast('Upload failed', 'error');
+            }
+            fileInput.value = '';
+        };
+
+        xhr.onerror = () => {
+            progress.style.display = 'none';
+            showToast('Upload error', 'error');
+        };
+
+        xhr.send(formData);
+    } catch (e) {
+        progress.style.display = 'none';
+        showToast('Upload error: ' + e.message, 'error');
+    }
+}
+
+function addImageCard(img) {
+    const card = document.createElement('div');
+    card.className = 'image-card';
+    card.dataset.filename = img.filename;
+    card.innerHTML = `
+        <div class="image-thumb">
+            <img src="${img.path}" alt="${img.filename}" loading="lazy">
+        </div>
+        <div class="image-info">
+            <span class="image-name" title="${img.filename}">${img.filename}</span>
+            <span class="image-meta">${img.size_human}${img.width ? ` &middot; ${img.width}&times;${img.height}` : ''}</span>
+        </div>
+        <div class="image-actions" style="display:flex; gap:4px;">
+            <button class="btn btn-sm btn-outline" onclick="editMetadata('${img.filename}')" title="Edit Info">
+                <i class="fas fa-pen"></i>
+            </button>
+            <button class="btn btn-sm btn-danger image-delete" onclick="deleteImage('${img.filename}')" title="Delete">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    imageGrid.appendChild(card);
+}
+
+// ---- Delete ----
+async function deleteImage(filename) {
+    if (!confirm(`Delete "${filename}"? This cannot be undone.`)) return;
+    try {
+        const res = await fetch(`/api/images/${COLLECTION}/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+            const card = imageGrid.querySelector(`[data-filename="${CSS.escape(filename)}"]`);
+            if (card) card.remove();
+            showToast(`Deleted ${filename}`);
+            updateCount();
+        } else {
+            showToast('Delete failed: ' + data.error, 'error');
+        }
+    } catch (e) {
+        showToast('Delete error: ' + e.message, 'error');
+    }
+}
+
+function updateCount() {
+    const count = imageGrid.querySelectorAll('.image-card').length;
+    document.getElementById('imageCount').textContent = count;
+}
+
+// ---- Metadata Modal ----
+let currentMetaFilename = '';
+
+function editMetadata(filename) {
+    currentMetaFilename = filename;
+    const key = `${COLLECTION}/${filename}`;
+    const meta = allMetadata[key] || {};
+
+    document.getElementById('metaFilename').textContent = filename;
+    document.getElementById('metaTitle').value = meta.title || '';
+    document.getElementById('metaYear').value = meta.year || '';
+    document.getElementById('metaMedium').value = meta.medium || '';
+    document.getElementById('metaDimensions').value = meta.dimensions || '';
+    document.getElementById('metaNotes').value = meta.notes || '';
+
+    const modal = document.getElementById('metadataModal');
+    modal.style.display = 'flex';
+}
+
+function closeMetadataModal() {
+    document.getElementById('metadataModal').style.display = 'none';
+    currentMetaFilename = '';
+}
+
+async function saveMetadata() {
+    const btn = document.getElementById('btnSaveMeta');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    const payload = {
+        title: document.getElementById('metaTitle').value.trim(),
+        year: document.getElementById('metaYear').value.trim(),
+        medium: document.getElementById('metaMedium').value.trim(),
+        dimensions: document.getElementById('metaDimensions').value.trim(),
+        notes: document.getElementById('metaNotes').value.trim(),
+    };
+
+    try {
+        const res = await fetch(`/api/image-metadata/${COLLECTION}/${encodeURIComponent(currentMetaFilename)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        const key = `${COLLECTION}/${currentMetaFilename}`;
+        allMetadata[key] = data;
+
+        // Update the card display
+        const card = imageGrid.querySelector(`[data-filename="${CSS.escape(currentMetaFilename)}"]`);
+        if (card) {
+            const nameEl = card.querySelector('.image-name');
+            if (nameEl) nameEl.textContent = data.title || currentMetaFilename;
+            const metaEl = card.querySelector('.image-meta');
+            if (metaEl) {
+                let parts = [];
+                if (data.year) parts.push(data.year);
+                // keep existing size info after the year
+                const existingText = metaEl.textContent;
+                const sizeMatch = existingText.match(/[\d.]+ [KMGT]?B.*/);
+                if (sizeMatch) parts.push(sizeMatch[0]);
+                metaEl.innerHTML = parts.join(' &middot; ');
+            }
+        }
+
+        showToast('Image info saved');
+        closeMetadataModal();
+    } catch (e) {
+        showToast('Save error: ' + e.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Save';
+    }
+}
+
+// Close modal on backdrop click
+document.getElementById('metadataModal').addEventListener('click', function(e) {
+    if (e.target === this) closeMetadataModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('metadataModal').style.display === 'flex') {
+        closeMetadataModal();
+    }
+});
+</script>
+{% endblock %}
