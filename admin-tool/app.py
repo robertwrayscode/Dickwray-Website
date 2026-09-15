@@ -683,73 +683,84 @@ def build_site():
 
 @app.route('/deploy', methods=['POST'])
 def deploy_site():
+    """Rebuild the pages, pick up any edits made on the web editor, and push."""
+    def git(*args, timeout=120):
+        return subprocess.run(['git', *args], cwd=SITE_DIR,
+                              capture_output=True, text=True, timeout=timeout)
     try:
-        git_dir = os.path.join(SITE_DIR, '.git')
-
-        # Initialize git if needed
-        if not os.path.isdir(git_dir):
-            subprocess.run(['git', 'init', '-b', 'main'], cwd=SITE_DIR,
-                           capture_output=True, text=True)
-
-        # Ensure remote is set
         repo_url = 'https://github.com/robertwrayscode/Dickwray-Website.git'
-        subprocess.run(['git', 'remote', 'add', 'origin', repo_url], cwd=SITE_DIR,
-                       capture_output=True, text=True)  # OK if already exists
+        token_path = os.path.join(SITE_DIR, '.git-token')
+        auth_url = repo_url
+        if os.path.isfile(token_path):
+            with open(token_path) as f:
+                token = f.read().strip()
+            if token:
+                auth_url = f'https://{token}@github.com/robertwrayscode/Dickwray-Website.git'
 
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        commit_msg = f"Site update via admin tool - {timestamp}"
+        if not os.path.isdir(os.path.join(SITE_DIR, '.git')):
+            git('init', '-b', 'main')
+        git('remote', 'add', 'origin', repo_url)  # OK if it already exists
+        git('config', 'user.name', 'Dick Wray Admin')
+        git('config', 'user.email', 'admin@dickwray.com')
 
-        # Stage site files (not secrets)
+        log = []
+
+        # 1. Rebuild pages from the current data
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from build import build_site as do_build
+        if not do_build():
+            return jsonify({'success': False, 'message': 'Build failed — see Terminal/log output.'}), 500
+        log.append('Rebuilt site pages.')
+
+        # 2. Commit local changes
         stage_files = [
             '.gitignore', '.nojekyll',
             'index.html', 'cv.html', 'essays.html', 'interviews.html', 'publications.html',
             'watercolors.html', 'black-and-whites.html', 'early-works.html', 'large-works.html',
-            'css/', 'js/main.js', 'assets/images/', '_data/', 'admin-tool/', 'admin/',
-            'push-to-github.command',
+            'css/', 'js/main.js', 'assets/images/', '_data/', 'admin-tool/',
+            'admin/index.html', 'admin/config.yml', 'admin/auth-complete.html',
+            '.github/', 'push-to-github.command',
         ]
-        r1 = subprocess.run(['git', 'add'] + stage_files, cwd=SITE_DIR,
-                            capture_output=True, text=True)
+        for f in stage_files:
+            git('add', f)
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        r = git('commit', '-m', f'Site update via admin tool - {timestamp}')
+        local_changes = r.returncode == 0
+        log.append('Committed local changes.' if local_changes else 'No local changes to commit.')
 
-        # Commit
-        r2 = subprocess.run(['git', 'commit', '-m', commit_msg], cwd=SITE_DIR,
-                            capture_output=True, text=True)
+        # 3. Bring in anything changed on GitHub (e.g. edits from the web editor)
+        r = git('fetch', auth_url, 'main')
+        if r.returncode != 0:
+            return jsonify({'success': False, 'message': 'Could not reach GitHub — ' + r.stderr.strip(),
+                            'output': '\n'.join(log)}), 500
+        r = git('merge', '-X', 'ours', '--no-edit', 'FETCH_HEAD')
+        if r.returncode != 0:
+            git('merge', '--abort')
+            return jsonify({'success': False, 'message': 'Merge with GitHub failed — ' + (r.stderr or r.stdout).strip(),
+                            'output': '\n'.join(log)}), 500
+        if 'Already up to date' not in r.stdout:
+            log.append('Merged changes from GitHub.')
+            # Data may have changed on GitHub: rebuild so the pages match
+            do_build()
+            for f in stage_files:
+                git('add', f)
+            git('commit', '-m', f'Rebuild after merging web edits - {timestamp}')
 
-        if r2.returncode != 0 and 'nothing to commit' in (r2.stdout + r2.stderr).lower():
-            return jsonify({
-                'success': True,
-                'message': 'Nothing to commit — site is up to date.',
-                'output': r2.stdout,
-            })
+        # 4. Push (never force — nothing gets overwritten)
+        r = git('push', auth_url, 'main', timeout=120)
+        log.append(r.stdout + r.stderr)
+        if r.returncode != 0:
+            return jsonify({'success': False, 'message': 'Push failed — ' + r.stderr.strip(),
+                            'output': '\n'.join(log)}), 500
 
-        # Push using token from .git-token file
-        token_path = os.path.join(SITE_DIR, '.git-token')
-        if os.path.isfile(token_path):
-            with open(token_path) as f:
-                token = f.read().strip()
-            push_url = f'https://{token}@github.com/robertwrayscode/Dickwray-Website.git'
-        else:
-            push_url = 'origin'
-
-        r3 = subprocess.run(['git', 'push', '-u', '--force', push_url, 'main'], cwd=SITE_DIR,
-                            capture_output=True, text=True, timeout=60)
-
-        output = '\n'.join(filter(None, [r1.stdout, r2.stdout, r3.stdout, r3.stderr]))
-        success = r3.returncode == 0
-
-        return jsonify({
-            'success': success,
-            'message': 'Deployed to GitHub!' if success else 'Deploy had issues — ' + (r3.stderr or r3.stdout or ''),
-            'output': output,
-        })
+        return jsonify({'success': True,
+                        'message': 'Published! The live site updates in about a minute.',
+                        'output': '\n'.join(log)})
     except subprocess.TimeoutExpired:
-        return jsonify({'success': False, 'message': 'Git push timed out'}), 500
+        return jsonify({'success': False, 'message': 'Git timed out'}), 500
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)}), 500
 
-
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 
 def open_browser():
     """Open browser after a short delay to let Flask start."""
@@ -778,7 +789,8 @@ if __name__ == '__main__':
 
     print('\n\U0001f3a8 Dick Wray Admin — http://localhost:5555\n')
 
-    # Auto-open browser
-    threading.Thread(target=open_browser, daemon=True).start()
+    # Auto-open browser (skipped when run as a background service)
+    if not os.environ.get('DICKWRAY_NO_BROWSER'):
+        threading.Thread(target=open_browser, daemon=True).start()
 
     app.run(host='0.0.0.0', port=5555, debug=True, use_reloader=False)

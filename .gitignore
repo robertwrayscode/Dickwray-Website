@@ -31,3 +31,4 @@ includes/
 !admin/index.html
 !admin/config.yml
 !admin/auth-complete.html
+admin-tool/logs/
