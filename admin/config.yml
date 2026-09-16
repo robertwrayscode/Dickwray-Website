@@ -2,7 +2,7 @@ backend:
   name: github
   repo: robertwrayscode/Dickwray-Website
   branch: main
-  base_url: https://dickwray-oauth.robertwray.workers.dev
+  base_url: https://dickwray-oauth.robertbwray.workers.dev
   auth_endpoint: /auth
 
 media_folder: assets/images

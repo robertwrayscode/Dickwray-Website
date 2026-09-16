@@ -32,7 +32,7 @@
 
       // Poll localStorage for OAuth token and relay to Decap CMS via synthetic MessageEvents.
       (function() {
-        var OAUTH_ORIGIN = 'https://dickwray-oauth.robertwray.workers.dev';
+        var OAUTH_ORIGIN = 'https://dickwray-oauth.robertbwray.workers.dev';
         var poll = setInterval(function() {
           var auth = localStorage.getItem('decap-cms-auth');
           if (auth) {
