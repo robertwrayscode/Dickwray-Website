@@ -38,17 +38,41 @@
             object-fit: cover;
             filter: brightness(0.7);
         }
+        /* Soft dark fade over the artwork so the title reads without a box */
+        .collection-header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background:
+                linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.55) 45%, rgba(10,10,10,0) 80%),
+                linear-gradient(to right, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0) 60%);
+        }
         .collection-title {
             position: relative;
             z-index: 1;
+            padding: 0;
+            margin-bottom: 45px;
+            max-width: 640px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.8);
         }
-        .collection-title {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            margin-bottom: 50px;
-            max-width: 600px;
-            backdrop-filter: blur(5px);
-            border-radius: 5px;
+        .collection-title h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        .collection-title h1::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #ff3d00;
+            margin-top: 14px;
+        }
+        .collection-title p {
+            color: rgba(255,255,255,0.85);
+            font-size: 1.05rem;
+            line-height: 1.6;
         }
         .collection-gallery {
             padding: 50px 5%;
@@ -135,11 +159,11 @@
                 padding: 0 5%;
             }
             .collection-title {
-                padding: 20px;
-                margin-bottom: 30px;
+                padding: 0;
+                margin-bottom: 28px;
             }
             .collection-title h1 {
-                font-size: 1.6rem;
+                font-size: 2rem;
             }
             .collection-title p {
                 font-size: 0.9rem;
