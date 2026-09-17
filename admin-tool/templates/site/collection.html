@@ -27,10 +27,10 @@
         .collection-gallery {
             padding: 50px 5%;
         }
+        /* Masonry layout: each artwork shows whole, at its own shape (no cropping) */
         .collection-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            column-width: 300px;
+            column-gap: 20px;
             margin-top: 30px;
         }
         .gallery-item {
@@ -38,7 +38,13 @@
             overflow: hidden;
             border-radius: 5px;
             cursor: pointer;
-            height: 300px;
+            height: auto;
+            aspect-ratio: auto;
+            display: inline-block;
+            width: 100%;
+            vertical-align: top;
+            break-inside: avoid;
+            margin-bottom: 20px;
             transition: transform 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -46,9 +52,10 @@
             transform: translateY(-5px);
         }
         .gallery-item img {
+            display: block;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             transition: transform 0.5s;
         }
         .gallery-item:hover img {
@@ -115,11 +122,11 @@
                 padding: 30px 4%;
             }
             .collection-gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 15px;
+                column-width: 250px;
+                column-gap: 15px;
             }
             .gallery-item {
-                height: 250px;
+                margin-bottom: 15px;
             }
         }
 
@@ -128,11 +135,10 @@
                 height: 30vh;
             }
             .collection-gallery-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
+                columns: 1;
             }
             .gallery-item {
-                height: 280px;
+                margin-bottom: 12px;
             }
         }
 
@@ -186,7 +192,7 @@
                      data-year="{{ img.year }}"
                      data-medium="{{ img.medium }}"
                      data-dimensions="{{ img.dimensions }}">
-                    <img src="{{ img.path }}" alt="{{ img.title or (collection.name + ' artwork') }}" loading="lazy">
+                    <img src="{{ img.path }}" alt="{{ img.title or (collection.name + ' artwork') }}">
                     {% if img.title %}
                     <div class="image-overlay">
                         <p class="img-title">{{ img.title }}</p>
