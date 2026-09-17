@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Dick Wray | Publications{% endblock %}
-{% block description %}Publications featuring Houston abstract expressionist painter Dick Wray.{% endblock %}
+{% block title %}Dick Wray | Press & Exhibitions{% endblock %}
+{% block description %}Press coverage and exhibition history for Houston abstract expressionist painter Dick Wray, including shows at William Reaves Fine Art and Deborah Colton Gallery.{% endblock %}
 {% block page_path %}publications.html{% endblock %}
 
 {% block extra_css %}
@@ -108,7 +108,7 @@
 
 {% block content %}
         <div class="simple-header">
-            <h1 class="reveal fade-bottom">Publications</h1>
+            <h1 class="reveal fade-bottom">Press &amp; Exhibitions</h1>
         </div>
 
         <section class="content-section">
@@ -117,14 +117,19 @@
                 <div class="content-card reveal fade-bottom">
                     <h3>{{ item.title }}</h3>
                     <div class="meta">
-                        {% if item.author %}<span>By {{ item.author }}</span>{% endif %}
-                        {% if item.publication %} &bull; <span>{{ item.publication }}</span>{% endif %}
-                        {% if item.date %} &bull; <span>{{ item.date }}</span>{% endif %}
+                        {% set parts = [] %}
+                        {% if item.author %}{% set _ = parts.append('By ' ~ item.author) %}{% endif %}
+                        {% if item.publication %}{% set _ = parts.append(item.publication) %}{% endif %}
+                        {% if item.date %}{% set _ = parts.append(item.date) %}{% endif %}
+                        <span>{{ parts|join(' • ') }}</span>
                     </div>
                     {% if item.description %}
                     <div class="description">
                         <p>{{ item.description }}</p>
                     </div>
+                    {% endif %}
+                    {% if item.url %}
+                    <p style="margin-top: 12px;"><a href="{{ item.url }}" target="_blank" rel="noopener" style="color: #ff3d00; text-decoration: none;">Read the full article &rarr;</a></p>
                     {% endif %}
                 </div>
                 {% endfor %}

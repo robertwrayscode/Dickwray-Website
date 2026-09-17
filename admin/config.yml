@@ -91,7 +91,8 @@ collections:
             fields:
               - { label: "ID", name: "id", widget: "string" }
               - { label: "Title", name: "title", widget: "string" }
-              - { label: "Author", name: "author", widget: "string" }
+              - { label: "Author", name: "author", widget: "string", required: false }
+              - { label: "Publication / Gallery", name: "publication", widget: "string", required: false }
               - { label: "URL", name: "url", widget: "string", required: false }
               - { label: "Date", name: "date", widget: "string" }
               - { label: "Description", name: "description", widget: "text", required: false }

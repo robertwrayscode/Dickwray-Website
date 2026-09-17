@@ -1,3 +1,44 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "p2019rev",
+      "title": "Dick Wray: A Revelation",
+      "author": "",
+      "publication": "Deborah Colton Gallery, Houston",
+      "url": "",
+      "date": "September 7 – November 2, 2019",
+      "description": "A solo exhibition of Dick Wray's paintings and mixed-media collage paintings that filled the entire Deborah Colton Gallery, presented with an accompanying catalogue. The show introduced a new audience to the Houston native who studied at the University of Houston and the Kunstakademie Düsseldorf, taught at the Glassell School of Art from 1968 to 1982, and was named Texas Artist of the Year by the Art League of Houston in 2000.",
+      "cover_image": ""
+    },
+    {
+      "id": "p2013lives",
+      "title": "Lives Played Out on Canvas: Paintings by Otis Huband, Richard Stout and Dick Wray",
+      "author": "",
+      "publication": "William Reaves Fine Art, Houston",
+      "url": "",
+      "date": "September 2013",
+      "description": "William Reaves Fine Art marked its 50th exhibition with a show celebrating three Houston stalwarts — Otis Huband, Richard Stout and Dick Wray — who put down roots in Houston as young painters in the late 1950s and early 1960s and helped shape the city's growing art scene. The opening on September 14, 2013 included an artist talk with Huband and Stout.",
+      "cover_image": ""
+    },
+    {
+      "id": "p2012texexp",
+      "title": "Texas Expressionism",
+      "author": "",
+      "publication": "William Reaves Fine Art, Houston",
+      "url": "",
+      "date": "September 14 – October 13, 2012",
+      "description": "William Reaves Fine Art opened its sixth season with an exhibition on abstract expressionism in Texas, a vivid period of abstraction that began in the mid-twentieth century. The show featured seven artists: Richard Stout, McKie Trotter, Dick Wray, Dorothy Hood, Otis Huband, Bill Reily and Charles Schorre.",
+      "cover_image": ""
+    },
+    {
+      "id": "p2011chron",
+      "title": "Wray, 77, leader in Houston art scene",
+      "author": "",
+      "publication": "Houston Chronicle",
+      "url": "https://www.chron.com/entertainment/article/Wray-77-leader-in-Houston-art-scene-1587952.php",
+      "date": "2011",
+      "description": "The Houston Chronicle's obituary remembers Dick Wray as an abstract expressionist who helped build Houston's contemporary art scene from 1959 on, taught at the Glassell School of Art, was named Texas Artist of the Year in 2000, and whose work is held by collections including the Museum of Modern Art and the National Gallery of Art.",
+      "cover_image": ""
+    }
+  ]
 }
