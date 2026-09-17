@@ -694,6 +694,9 @@ footer {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
     overflow: hidden;
+    /* keep the enlarged image centered (the page opens it with display:flex) */
+    justify-content: center;
+    align-items: center;
 }
 
 .lightbox.active {
