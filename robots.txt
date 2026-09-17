@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /admin-tool/
+
+Sitemap: https://www.dickwray.com/sitemap.xml

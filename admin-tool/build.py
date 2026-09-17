@@ -332,6 +332,19 @@ def _build_site_impl() -> bool:
         write_page(SITE_DIR / filename, html)
         generated.append(filename)
 
+    # --- sitemap.xml (helps Google find every page) ---
+    base_url = "https://www.dickwray.com/"
+    pages = ["", "cv.html", "essays.html", "interviews.html"]
+    if publications:
+        pages.append("publications.html")
+    pages += [f"{col['slug']}.html" for col in collections_data]
+    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    sitemap += [f"  <url><loc>{base_url}{p}</loc></url>" for p in pages]
+    sitemap.append("</urlset>")
+    write_page(SITE_DIR / "sitemap.xml", "\n".join(sitemap) + "\n")
+    generated.append("sitemap.xml")
+
     # ------------------------------------------------------------------
     # 6. Report
     # ------------------------------------------------------------------

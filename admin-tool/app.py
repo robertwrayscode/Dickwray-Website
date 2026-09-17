@@ -717,6 +717,7 @@ def deploy_site():
             '.gitignore', '.nojekyll',
             'index.html', 'cv.html', 'essays.html', 'interviews.html', 'publications.html',
             'watercolors.html', 'black-and-whites.html', 'early-works.html', 'large-works.html',
+            'sitemap.xml', 'robots.txt', 'favicon.ico',
             'css/', 'js/main.js', 'assets/images/', '_data/', 'admin-tool/',
             'admin/index.html', 'admin/config.yml', 'admin/auth-complete.html',
             '.github/', 'push-to-github.command',
