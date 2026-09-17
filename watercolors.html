@@ -13,13 +13,34 @@
     <link rel="stylesheet" href="css/centered-lightbox.css">
     <style>
         .collection-header {
+            position: relative;
+            overflow: hidden;
             height: 50vh;
-            background-size: cover;
-            background-position: center;
-            background-image: url('assets/images/collections/watercolors/watercolor_0092.jpg');
+            max-height: 420px;
+            background-color: #111;
             display: flex;
             align-items: flex-end;
             padding: 0 10%;
+        }
+        /* Header background: a strip of the collection's artworks at close to
+           their real size, so small photos stay sharp instead of being stretched */
+        .collection-header-strip {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            gap: 4px;
+            z-index: 0;
+        }
+        .collection-header-strip img {
+            height: 100%;
+            width: auto;
+            flex: 0 0 auto;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        .collection-title {
+            position: relative;
+            z-index: 1;
         }
         .collection-title {
             background: rgba(0, 0, 0, 0.7);
@@ -244,6 +265,8 @@
 
     <main>
         <div class="collection-header">
+            <div class="collection-header-strip" aria-hidden="true">
+<img src="assets/images/collections/watercolors/watercolor_0092.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0202.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0211.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0231.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0261.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0301.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0341.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0351.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0361.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0381.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0411.jpg" alt=""><img src="assets/images/collections/watercolors/watercolor_0421.jpg" alt="">            </div>
             <div class="collection-title">
                 <h1>Watercolors</h1>
                 <p>A selection of Dick Wray&#39;s vibrant watercolor works, showcasing his mastery of the medium and distinctive abstract expressionist style.</p>

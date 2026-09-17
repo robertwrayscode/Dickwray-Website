@@ -13,13 +13,34 @@
     <link rel="stylesheet" href="css/centered-lightbox.css">
     <style>
         .collection-header {
+            position: relative;
+            overflow: hidden;
             height: 50vh;
-            background-size: cover;
-            background-position: center;
-            background-image: url('assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg');
+            max-height: 420px;
+            background-color: #111;
             display: flex;
             align-items: flex-end;
             padding: 0 10%;
+        }
+        /* Header background: a strip of the collection's artworks at close to
+           their real size, so small photos stay sharp instead of being stretched */
+        .collection-header-strip {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            gap: 4px;
+            z-index: 0;
+        }
+        .collection-header-strip img {
+            height: 100%;
+            width: auto;
+            flex: 0 0 auto;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+        .collection-title {
+            position: relative;
+            z-index: 1;
         }
         .collection-title {
             background: rgba(0, 0, 0, 0.7);
@@ -244,6 +265,8 @@
 
     <main>
         <div class="collection-header">
+            <div class="collection-header-strip" aria-hidden="true">
+<img src="assets/images/collections/large-works/1427-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1428-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1429-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1430-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1431-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1443-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1450-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/1452-Wray-Estate-Inventory.jpg" alt=""><img src="assets/images/collections/large-works/Painting1_July-4-2007.jpg" alt=""><img src="assets/images/collections/large-works/Painting2_July-4-2007.jpg" alt=""><img src="assets/images/collections/large-works/Painting3_July-4-2007.jpg" alt=""><img src="assets/images/collections/large-works/Painting4_July-4-2007.jpg" alt="">            </div>
             <div class="collection-title">
                 <h1>Large Works</h1>
                 <p>Dick Wray&#39;s monumental large-scale paintings, demonstrating his command of space and color on a grand scale.</p>
