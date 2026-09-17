@@ -119,6 +119,19 @@
             </div>
             <div class="footer-social">
                 <h3>Connect</h3>
+                {% if settings.instagram_url or settings.facebook_url or settings.youtube_url %}
+                <div class="social-icons" style="margin-top: 12px; display: flex; gap: 18px;">
+                    {% if settings.instagram_url %}<a href="{{ settings.instagram_url }}" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram" style="text-decoration: none; opacity: 0.7; transition: opacity 0.3s;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                    </a>{% endif %}
+                    {% if settings.facebook_url %}<a href="{{ settings.facebook_url }}" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook" style="text-decoration: none; opacity: 0.7; transition: opacity 0.3s;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>{% endif %}
+                    {% if settings.youtube_url %}<a href="{{ settings.youtube_url }}" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube" style="text-decoration: none; opacity: 0.7; transition: opacity 0.3s;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+                    </a>{% endif %}
+                </div>
+                {% endif %}
                 <p style="margin-top: 15px;"><a href="index.html#contact" style="color: var(--accent-color); text-decoration: none;">Send a Message &rarr;</a></p>
             </div>
         </div>

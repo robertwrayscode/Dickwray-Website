@@ -209,6 +209,11 @@ def serve_site_assets(filename):
 @app.route('/preview/<path:filename>')
 def preview_site(filename='index.html'):
     """Serve the built site for preview."""
+    # Never serve hidden files (.git-token, .git/…) or tool/backup folders —
+    # the dashboard is reachable from the internet through Cloudflare Access.
+    parts = filename.replace('\\', '/').split('/')
+    if any(p.startswith('.') for p in parts) or parts[0] in ('admin-tool', '_archive', '_data'):
+        abort(404)
     return send_from_directory(SITE_DIR, filename)
 
 
@@ -681,6 +686,20 @@ def build_site():
         return jsonify({'success': False, 'message': str(e) + '\n' + traceback.format_exc()}), 500
 
 
+def current_editor_email():
+    """Email of the person signed in through Cloudflare Access (empty when used locally)."""
+    try:
+        return (request.headers.get('Cf-Access-Authenticated-User-Email') or '').strip()
+    except RuntimeError:
+        return ''
+
+
+@app.context_processor
+def inject_editor():
+    email = current_editor_email()
+    return {'editor_email': email, 'editor_name': (email.split('@')[0] if email else 'Robert')}
+
+
 @app.route('/deploy', methods=['POST'])
 def deploy_site():
     """Rebuild the pages, pick up any edits made on the web editor, and push."""
@@ -725,7 +744,9 @@ def deploy_site():
         for f in stage_files:
             git('add', f)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        r = git('commit', '-m', f'Site update via admin tool - {timestamp}')
+        editor = current_editor_email()
+        who = f' by {editor}' if editor else ''
+        r = git('commit', '-m', f'Site update via admin tool{who} - {timestamp}')
         local_changes = r.returncode == 0
         log.append('Committed local changes.' if local_changes else 'No local changes to commit.')
 
@@ -794,4 +815,6 @@ if __name__ == '__main__':
     if not os.environ.get('DICKWRAY_NO_BROWSER'):
         threading.Thread(target=open_browser, daemon=True).start()
 
-    app.run(host='0.0.0.0', port=5555, debug=True, use_reloader=False)
+    # debug=False: the dashboard can be reached from the internet through the
+    # Cloudflare login (admin.dickwray.org); debug mode would expose a code console.
+    app.run(host='0.0.0.0', port=5555, debug=False, use_reloader=False)

@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="welcome-banner">
-    <h2>Welcome, Robert</h2>
+    <h2>Welcome{% if editor_email %}, {{ editor_email }}{% else %}, Robert{% endif %}</h2>
     <p>Manage the Dick Wray art portfolio from here.</p>
 </div>
 

@@ -1418,3 +1418,28 @@ footer {
         transform: translateY(0);
     }
 }
+
+/* Text that sits ON TOP of artwork is always white, in both themes (2026-09-17).
+   The light theme turns --text-color dark grey, which used to make the collection-card
+   labels on the home page and the big title on each collection page dark-on-dark, because
+   the image behind them is darkened, not the page. */
+.collection-header h1,
+.collection-header p,
+.collection-title h1,
+.collection-title p,
+.collection-overlay h3,
+.gallery-item .image-overlay,
+.gallery-item .img-title,
+.gallery-item .img-details {
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.collection-overlay {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* Anchor links (#gallery, #collections, #contact) land below the fixed header instead of under it */
+section[id] {
+    scroll-margin-top: 110px;
+}

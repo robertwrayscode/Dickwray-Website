@@ -240,7 +240,6 @@ def _build_site_impl() -> bool:
     settings = load_json(DATA_DIR / "settings.json") or {
         "site_title": "Dick Wray | Abstract Expressionist Artist",
         "site_description": "Official website for abstract expressionist artist Dick Wray",
-        "email": "contact@dickwray.com",
     }
 
     bio = load_json(DATA_DIR / "bio.json") or {}
