@@ -36,7 +36,21 @@ collections:
           - { label: "Born", name: "born", widget: "string" }
           - { label: "Died", name: "died", widget: "string" }
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Content (HTML)", name: "content", widget: "text" }
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Section heading", name: "title", widget: "string" }
+              - label: "Entries"
+                name: "items"
+                widget: "list"
+                required: false
+                summary: "{{fields.year}} {{fields.text}}"
+                fields:
+                  - { label: "Year", name: "year", widget: "string", required: false }
+                  - { label: "Description (*asterisks* = italic)", name: "text", widget: "string" }
+              - { label: "Paragraph text (optional)", name: "text", widget: "text", required: false }
 
   - label: "Essays"
     name: "essays"

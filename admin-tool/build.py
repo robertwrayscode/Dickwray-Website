@@ -6,6 +6,7 @@ Run standalone or import build_site() from another module.
 """
 
 import json
+import re
 import os
 import sys
 from pathlib import Path
@@ -158,6 +159,44 @@ def load_json_list(filepath: Path) -> list:
     return []
 
 
+
+def render_cv_sections(cv: dict) -> str:
+    """Turn the easy-to-edit CV sections into the HTML the CV page shows.
+
+    Each section: {"title", "items": [{"year", "text"}], "text"}.
+    *asterisks* around words make them italic. Falls back to the old
+    HTML "content" field if there are no sections.
+    """
+    import html as _html
+    sections = cv.get("sections")
+    if not sections:
+        return cv.get("content", "") or cv.get("content_backup_html", "") or ""
+
+    def fmt(t: str) -> str:
+        t = _html.escape((t or "").strip(), quote=False)
+        return re.sub(r"\*(.+?)\*", r"<em>\1</em>", t)
+
+    out = []
+    for sec in sections:
+        title = (sec.get("title") or "").strip()
+        items = [i for i in (sec.get("items") or []) if (i.get("text") or i.get("year"))]
+        paras = [p for p in re.split(r"\n\s*\n", sec.get("text") or "") if p.strip()]
+        if not (title or items or paras):
+            continue
+        if title:
+            out.append(f"<h3>{fmt(title)}</h3>")
+        if items:
+            out.append('<ul class="cv-list">')
+            for i in items:
+                year = (i.get("year") or "").strip()
+                lead = f"<strong>{fmt(year)}</strong> " if year else ""
+                out.append(f"    <li>{lead}{fmt(i.get('text'))}</li>")
+            out.append("</ul>")
+        for p in paras:
+            out.append(f"<p>{fmt(p)}</p>")
+        out.append("")
+    return "\n".join(out)
+
 def write_page(path: Path, content: str) -> None:
     """Write *content* to *path*, creating parent dirs if needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -206,6 +245,7 @@ def _build_site_impl() -> bool:
 
     bio = load_json(DATA_DIR / "bio.json") or {}
     cv = load_json(DATA_DIR / "cv.json") or {}
+    cv["content"] = render_cv_sections(cv)
     essays = load_json_list(DATA_DIR / "essays.json")
     interviews = load_json_list(DATA_DIR / "interviews.json")
     publications = load_json_list(DATA_DIR / "publications.json")

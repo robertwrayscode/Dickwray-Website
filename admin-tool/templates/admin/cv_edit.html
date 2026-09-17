@@ -4,69 +4,170 @@
 {% block page_title %}Curriculum Vitae{% endblock %}
 
 {% block content %}
+<style>
+    .cv-help { opacity: .75; margin-bottom: 22px; line-height: 1.6; }
+    .cv-sec { background: var(--surface); border: 1px solid var(--surface-3); border-radius: var(--radius-lg); margin-bottom: 16px; }
+    .cv-sec > summary { list-style: none; cursor: pointer; padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
+    .cv-sec > summary::-webkit-details-marker { display: none; }
+    .cv-sec > summary .chev { transition: transform .2s; color: var(--text-dim); }
+    .cv-sec[open] > summary .chev { transform: rotate(90deg); }
+    .cv-sec-name { font-weight: 600; flex: 1; }
+    .cv-count { font-size: .75rem; color: var(--text-dim); background: var(--surface-2); padding: 3px 10px; border-radius: 20px; }
+    .cv-sec-body { padding: 0 18px 18px; }
+    .cv-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .cv-row .year { width: 120px; flex: 0 0 120px; }
+    .cv-row .text { flex: 1; }
+    .icon-btn { background: var(--surface-2); border: 1px solid var(--surface-3); color: var(--text-dim); width: 34px; height: 34px; border-radius: var(--radius); cursor: pointer; flex: 0 0 34px; }
+    .icon-btn:hover { color: var(--text); border-color: var(--accent); }
+    .icon-btn.del:hover { color: var(--danger); border-color: var(--danger); }
+    .cv-colhead { display: flex; gap: 8px; font-size: .7rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text-dim); margin: 6px 0 6px; }
+    .cv-colhead span:first-child { width: 120px; }
+    .cv-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 16px; }
+    .cv-savebar { position: sticky; bottom: 0; background: var(--bg); padding: 14px 0; border-top: 1px solid var(--surface-3); display: flex; gap: 10px; align-items: center; z-index: 5; }
+    .cv-dirty { color: var(--accent); font-size: .85rem; display: none; }
+</style>
+
 <section class="section">
     <div class="section-header">
         <h3 class="section-title"><i class="fas fa-file-alt"></i> CV Editor</h3>
     </div>
-    <p style="opacity: 0.7; margin-bottom: 20px;">Edit the CV/resume page. The content field accepts HTML — use &lt;h3&gt; for section headings, &lt;ul class="cv-list"&gt; for lists, and &lt;strong&gt; for dates.</p>
+    <p class="cv-help">
+        Click a section to open it. Each line has a <strong>Year</strong> (leave it blank for things without a date, like collections) and a <strong>Description</strong>.
+        Use the arrows to reorder, <i class="fas fa-times"></i> to remove, and <em>Add entry</em> for new lines.
+        To make words italic (like a magazine name), put asterisks around them: <code>*Art in America*</code>.
+        Click <strong>Save CV</strong> when done, then <strong>Deploy</strong>.
+    </p>
 
-    <form id="cvForm" onsubmit="saveCV(event)">
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label>Name</label>
-            <input type="text" id="cvName" class="form-control" value="{{ cv.name or '' }}">
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label>Born</label>
-            <input type="text" id="cvBorn" class="form-control" value="{{ cv.born or '' }}" placeholder="e.g. 1933, Houston, Texas">
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label>Died</label>
-            <input type="text" id="cvDied" class="form-control" value="{{ cv.died or '' }}" placeholder="e.g. 2011, Houston, Texas">
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            <label>Title</label>
-            <input type="text" id="cvTitle" class="form-control" value="{{ cv.title or '' }}" placeholder="e.g. Abstract Expressionist Painter">
-        </div>
-        <div class="form-group" style="margin-bottom: 20px;">
-            <label>Content (HTML)</label>
-            <textarea id="cvContent" class="form-control" rows="30" style="font-family: monospace; font-size: 0.85rem;">{{ cv.content or '' }}</textarea>
-        </div>
+    <div class="form-group"><label>Name</label><input type="text" id="cvName" class="form-control"></div>
+    <div class="form-group"><label>Born</label><input type="text" id="cvBorn" class="form-control" placeholder="e.g. 1933, Houston, Texas"></div>
+    <div class="form-group"><label>Died</label><input type="text" id="cvDied" class="form-control" placeholder="e.g. 2011, Houston, Texas"></div>
+    <div class="form-group"><label>Title</label><input type="text" id="cvTitle" class="form-control" placeholder="e.g. Abstract Expressionist Painter"></div>
 
-        <div class="modal-actions">
-            <button type="submit" class="btn btn-accent">
-                <i class="fas fa-save"></i> Save CV
-            </button>
-        </div>
-    </form>
+    <h4 style="margin: 28px 0 12px;">Sections</h4>
+    <div id="sections"></div>
+    <button type="button" class="btn btn-outline" onclick="addSection()"><i class="fas fa-plus"></i> Add section</button>
+
+    <div class="cv-savebar">
+        <button type="button" class="btn btn-accent" onclick="saveCV()"><i class="fas fa-save"></i> Save CV</button>
+        <span class="cv-dirty" id="dirty">Unsaved changes</span>
+    </div>
 </section>
 {% endblock %}
 
 {% block scripts %}
 <script>
-async function saveCV(e) {
-    e.preventDefault();
+const CV = {{ cv|tojson }};
+let sections = (CV.sections || []).map(s => ({
+    title: s.title || '', text: s.text || '',
+    items: (s.items || []).map(i => ({ year: i.year || '', text: i.text || '' }))
+}));
+const openState = new Set();
+
+function markDirty() { document.getElementById('dirty').style.display = 'inline'; }
+
+function el(tag, attrs = {}, children = []) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+        if (k === 'class') e.className = v;
+        else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+        else if (k === 'value') e.value = v;
+        else e.setAttribute(k, v);
+    }
+    children.forEach(c => e.append(c));
+    return e;
+}
+function iconBtn(icon, title, fn, extra = '') {
+    return el('button', { type: 'button', class: 'icon-btn ' + extra, title, onclick: fn }, [el('i', { class: 'fas ' + icon })]);
+}
+function move(arr, i, d) { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; }
+
+function render() {
+    const box = document.getElementById('sections');
+    box.innerHTML = '';
+    sections.forEach((sec, si) => {
+        const det = el('details', { class: 'cv-sec' });
+        if (openState.has(si)) det.open = true;
+        det.addEventListener('toggle', () => det.open ? openState.add(si) : openState.delete(si));
+
+        const name = el('span', { class: 'cv-sec-name' }, [sec.title || '(untitled section)']);
+        const count = el('span', { class: 'cv-count' }, [sec.items.length + (sec.items.length === 1 ? ' entry' : ' entries')]);
+        det.append(el('summary', {}, [el('i', { class: 'fas fa-chevron-right chev' }), name, count]));
+
+        const body = el('div', { class: 'cv-sec-body' });
+        body.append(el('div', { class: 'form-group' }, [
+            el('label', {}, ['Section heading']),
+            el('input', { type: 'text', class: 'form-control', value: sec.title,
+                oninput: e => { sec.title = e.target.value; name.textContent = sec.title || '(untitled section)'; markDirty(); } })
+        ]));
+
+        if (sec.items.length) body.append(el('div', { class: 'cv-colhead' }, [el('span', {}, ['Year']), el('span', {}, ['Description'])]));
+        sec.items.forEach((it, ii) => {
+            body.append(el('div', { class: 'cv-row' }, [
+                el('input', { type: 'text', class: 'form-control year', placeholder: 'Year', value: it.year, oninput: e => { it.year = e.target.value; markDirty(); } }),
+                el('input', { type: 'text', class: 'form-control text', placeholder: 'Description', value: it.text, oninput: e => { it.text = e.target.value; markDirty(); } }),
+                iconBtn('fa-arrow-up', 'Move up', () => { move(sec.items, ii, -1); markDirty(); render(); }),
+                iconBtn('fa-arrow-down', 'Move down', () => { move(sec.items, ii, 1); markDirty(); render(); }),
+                iconBtn('fa-times', 'Remove this line', () => { sec.items.splice(ii, 1); markDirty(); render(); }, 'del'),
+            ]));
+        });
+
+        body.append(el('div', { class: 'cv-actions' }, [
+            el('button', { type: 'button', class: 'btn btn-sm btn-outline', onclick: () => { sec.items.unshift({ year: '', text: '' }); markDirty(); render(); focusRow(si, 0); } }, [el('i', { class: 'fas fa-plus' }), ' Add entry at top']),
+            el('button', { type: 'button', class: 'btn btn-sm btn-outline', onclick: () => { sec.items.push({ year: '', text: '' }); markDirty(); render(); focusRow(si, sec.items.length - 1); } }, [el('i', { class: 'fas fa-plus' }), ' Add entry at bottom']),
+        ]));
+
+        body.append(el('div', { class: 'form-group' }, [
+            el('label', {}, ['Paragraph text (optional — leave a blank line between paragraphs)']),
+            el('textarea', { class: 'form-control', rows: sec.text ? 6 : 2, value: sec.text, oninput: e => { sec.text = e.target.value; markDirty(); } })
+        ]));
+
+        body.append(el('div', { class: 'cv-actions' }, [
+            el('button', { type: 'button', class: 'btn btn-sm btn-outline', onclick: () => { move(sections, si, -1); openState.clear(); markDirty(); render(); } }, [el('i', { class: 'fas fa-arrow-up' }), ' Move section up']),
+            el('button', { type: 'button', class: 'btn btn-sm btn-outline', onclick: () => { move(sections, si, 1); openState.clear(); markDirty(); render(); } }, [el('i', { class: 'fas fa-arrow-down' }), ' Move section down']),
+            el('button', { type: 'button', class: 'btn btn-sm btn-danger', onclick: () => {
+                if (confirm('Delete the whole "' + (sec.title || 'untitled') + '" section?')) { sections.splice(si, 1); openState.clear(); markDirty(); render(); }
+            } }, [el('i', { class: 'fas fa-trash' }), ' Delete section']),
+        ]));
+
+        det.append(body);
+        box.append(det);
+    });
+}
+function focusRow(si, ii) {
+    const det = document.querySelectorAll('.cv-sec')[si];
+    const row = det && det.querySelectorAll('.cv-row')[ii];
+    if (row) row.querySelector('.year').focus();
+}
+function addSection() {
+    sections.push({ title: 'New section', text: '', items: [{ year: '', text: '' }] });
+    openState.add(sections.length - 1); markDirty(); render();
+    document.querySelectorAll('.cv-sec')[sections.length - 1].scrollIntoView({ behavior: 'smooth' });
+}
+
+async function saveCV() {
     const payload = {
         name: document.getElementById('cvName').value,
         born: document.getElementById('cvBorn').value,
         died: document.getElementById('cvDied').value,
         title: document.getElementById('cvTitle').value,
-        content: document.getElementById('cvContent').value,
+        sections: sections.map(s => ({
+            title: s.title.trim(), text: s.text.trim(),
+            items: s.items.filter(i => i.year.trim() || i.text.trim()).map(i => ({ year: i.year.trim(), text: i.text.trim() }))
+        })),
     };
-
     try {
-        const res = await fetch('/api/cv', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-        });
-        if (res.ok) {
-            showToast('CV saved!');
-        } else {
-            showToast('Save failed', 'error');
-        }
-    } catch (e) {
-        showToast('Error: ' + e.message, 'error');
-    }
+        const res = await fetch('/api/cv', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (res.ok) { showToast('CV saved! Click Deploy to publish.'); document.getElementById('dirty').style.display = 'none'; }
+        else showToast('Save failed', 'error');
+    } catch (e) { showToast('Error: ' + e.message, 'error'); }
 }
+
+document.getElementById('cvName').value = CV.name || '';
+document.getElementById('cvBorn').value = CV.born || '';
+document.getElementById('cvDied').value = CV.died || '';
+document.getElementById('cvTitle').value = CV.title || '';
+['cvName','cvBorn','cvDied','cvTitle'].forEach(id => document.getElementById(id).addEventListener('input', markDirty));
+render();
+window.addEventListener('beforeunload', e => { if (document.getElementById('dirty').style.display === 'inline') { e.preventDefault(); e.returnValue = ''; } });
 </script>
 {% endblock %}
