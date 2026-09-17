@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}{{ collection.name }} | Dick Wray{% endblock %}
+{% block description %}{{ collection.description }}{% endblock %}
+{% block page_path %}{{ collection.slug }}.html{% endblock %}
+{% block og_image %}{% if collection.images %}{{ collection.images[0]|replace("/", "", 1) if collection.images[0].startswith("/") else collection.images[0] }}{% else %}assets/images/collections/splash/gallery-image-5.jpg{% endif %}{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="css/centered-lightbox.css">

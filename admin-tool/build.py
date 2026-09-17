@@ -277,6 +277,8 @@ def _build_site_impl() -> bool:
     # Common template context
     common_ctx = {
         "settings": settings,
+        # Hide the Publications menu link until there is something to show
+        "has_publications": bool(publications),
     }
 
     generated: list[str] = []
